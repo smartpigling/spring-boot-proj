@@ -1,0 +1,11 @@
+apply plugin: 'spring-boot' 
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile('org.springframework:spring-jdbc')
+	compile('org.codehaus.janino:janino:2.7.8')
+	compile('c3p0:c3p0:0.9.1.2')
+	compile('com.h2database:h2')
+	testCompile('junit:junit')
+}

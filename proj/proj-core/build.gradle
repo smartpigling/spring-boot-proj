@@ -1,0 +1,7 @@
+apply plugin: 'spring-boot'
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	testCompile('junit:junit')
+}

@@ -1,0 +1,104 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for authorities
+-- ----------------------------
+DROP TABLE IF EXISTS `authorities`;
+CREATE TABLE `authorities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `resource` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for groups
+-- ----------------------------
+DROP TABLE IF EXISTS `groups`;
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for groups_roles
+-- ----------------------------
+DROP TABLE IF EXISTS `groups_roles`;
+CREATE TABLE `groups_roles` (
+  `groups_id` int(11) NOT NULL,
+  `roles_id` int(11) NOT NULL,
+  PRIMARY KEY (`groups_id`,`roles_id`),
+  KEY `fk_groups_has_roles_roles1_idx` (`roles_id`),
+  KEY `fk_groups_has_roles_groups1_idx` (`groups_id`),
+  CONSTRAINT `fk_groups_has_roles_groups1` FOREIGN KEY (`groups_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_groups_has_roles_roles1` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for roles
+-- ----------------------------
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for roles_authorities
+-- ----------------------------
+DROP TABLE IF EXISTS `roles_authorities`;
+CREATE TABLE `roles_authorities` (
+  `roles_id` int(11) NOT NULL,
+  `authorities_id` int(11) NOT NULL,
+  PRIMARY KEY (`roles_id`,`authorities_id`),
+  KEY `fk_roles_has_authorities_authorities1_idx` (`authorities_id`),
+  KEY `fk_roles_has_authorities_roles1_idx` (`roles_id`),
+  CONSTRAINT `fk_roles_has_authorities_authorities1` FOREIGN KEY (`authorities_id`) REFERENCES `authorities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_roles_has_authorities_roles1` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `account_expired` tinyint(1) DEFAULT '0',
+  `account_locked` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users_groups
+-- ----------------------------
+DROP TABLE IF EXISTS `users_groups`;
+CREATE TABLE `users_groups` (
+  `users_id` int(11) NOT NULL,
+  `groups_id` int(11) NOT NULL,
+  PRIMARY KEY (`users_id`,`groups_id`),
+  KEY `fk_users_has_groups_groups1_idx` (`groups_id`),
+  KEY `fk_users_has_groups_users1_idx` (`users_id`),
+  CONSTRAINT `fk_users_has_groups_groups1` FOREIGN KEY (`groups_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_groups_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for users_roles
+-- ----------------------------
+DROP TABLE IF EXISTS `users_roles`;
+CREATE TABLE `users_roles` (
+  `users_id` int(11) NOT NULL,
+  `roles_id` int(11) NOT NULL,
+  PRIMARY KEY (`users_id`,`roles_id`),
+  KEY `fk_users_has_roles_roles1_idx` (`roles_id`),
+  KEY `fk_users_has_roles_users_idx` (`users_id`),
+  CONSTRAINT `fk_users_has_roles_roles1` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_roles_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

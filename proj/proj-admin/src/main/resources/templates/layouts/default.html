@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="zh-cmn-Hans">
+    <title>Proj Admin</title>
+    <!--/*/ <th:block th:include="headerinc::head"></th:block> /*/-->
+</head>
+<body>
+
+<div class="container">
+    <!--/*/ <th:block th:include="layouts/header::header"></th:block> /*/-->
+</div>
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li><a href="#" >用户管理</a></li>
+				<li><a href="#" th:href="@{/users}">用户查询</a></li>
+				<li><a href="#" th:href="@{/user/new}">用户管理</a></li>
+			</ul>
+			<ul class="nav nav-sidebar">
+				<li><a href="#" >用户组管理</a></li>
+				<li><a href="#" th:href="@{/users}">用户组查询</a></li>
+				<li><a href="#" th:href="@{/user/new}">用户组管理</a></li>
+			</ul>			
+			<ul class="nav nav-sidebar">
+				<li><a href="#" >角色管理</a></li>
+				<li><a href="#" th:href="@{/users}" >角色查询</a></li>
+				<li><a href="#" th:href="@{/user/new}">角色管理</a></li>
+			</ul>			
+			<ul class="nav nav-sidebar">
+				<li><a href="#" >权限管理</a></li>
+				<li><a href="#" th:href="@{/users}" >权限查询</a></li>
+				<li><a href="#" th:href="@{/user/new}">权限管理</a></li>
+			</ul>			
+		</div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<div th:replace="${view} ? ${view} : 'defaultcontent' :: content"></div>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>
