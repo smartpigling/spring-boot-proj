@@ -1,1 +1,7 @@
-
+/build/
+/bin/
+**/.settings
+**/.project
+**/.classpath
+**/.gitignore
+**/.gradle/
