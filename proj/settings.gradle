@@ -1,2 +1,2 @@
-include 'proj-lib', 'proj-logging', 'proj-core', 'proj-admin', 'proj-serv-demo'
-//include 'proj-core', 'proj-admin', 'proj-lib', 'proj-logging', 'proj-properties', 'proj-prod', 'proj-serv-demo'
+include 'proj-properties', 'proj-prod', 'proj-cache', 'proj-lib', 'proj-logging', 'proj-core', 'proj-admin', 'proj-serv-demo'
+
