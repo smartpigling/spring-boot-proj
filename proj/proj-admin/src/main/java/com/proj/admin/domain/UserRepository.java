@@ -1,6 +1,9 @@
 package com.proj.admin.domain;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,6 +19,9 @@ public interface UserRepository extends JpaRepository<User,Long>{
 //			+ "WHERE u.username=?1", nativeQuery = true)
 	@Query(value = " select a.id, a.name, a.resource  from User u join u.roles r join r.authorities a where u.username=?1")
 	List<Object[]> findAuthorityByUsername(String username);
+	
+	
+	Page<User> findByUsernameContainingIgnoreCase(String username, Pageable pageable);
 	
 	User findByUsername(String username);
 }

@@ -3,9 +3,15 @@ package com.proj.admin.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.proj.admin.domain.UserRepository;
 
@@ -44,8 +50,15 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String listUser(Model model){
-		model.addAttribute("users",userRepository.findAll());
+	public String listUser(@PageableDefault Pageable pageable,@RequestParam(value="username", required=false, defaultValue="") 
+							String username,Model model){
+		
+		Page<com.proj.admin.domain.User>  page= userRepository.findByUsernameContainingIgnoreCase(username,
+				new PageRequest(pageable.getPageNumber()<= 0 ? 0 : pageable.getPageNumber()-1,
+						pageable.getPageSize(),new Sort(Sort.Direction.ASC,"username")));
+
+		model.addAttribute("page",page);
+		model.addAttribute("username",username);
 		return "user/users";
 	}
 	

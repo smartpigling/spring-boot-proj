@@ -19,6 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -110,7 +113,19 @@ public class UserTest {
     	}
     }
 
-
+    @Test
+    public void canFetchUserPage(){
+    	String username="";
+    	Pageable pageable=new PageRequest(0,10);
+    	Page<User> page = userRepository.findByUsernameContainingIgnoreCase(username, pageable);
+    	logger.info(page.getContent().toString());
+    	logger.info(String.valueOf(page.getSize()));
+    	logger.info(String.valueOf(page.getTotalElements()));
+    	logger.info(String.valueOf(page.getTotalPages()));
+    	logger.info(String.valueOf(page.getNumber()));
+    }
+    
+    
     public void canDeleteUser() {
     	User u = userRepository.findByUsername("jarry");
     	userRepository.delete(u);
@@ -131,7 +146,7 @@ public class UserTest {
     	logger.info("BCryptPasswordEncoder :"+passwordEncoder.encode("tom"));
     }
     
-    @Test
+    
     public void canGetCurrentUser(){
     	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	if (principal instanceof UserDetails) {

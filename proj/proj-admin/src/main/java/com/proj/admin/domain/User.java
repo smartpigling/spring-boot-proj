@@ -3,6 +3,7 @@ package com.proj.admin.domain;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 
 
@@ -29,13 +29,13 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
     
-    @NotNull
+    @Column(nullable = false)
 	private String username;
     
-    @NotNull
+    @Column(nullable = false)
 	private String password;
     
-    @NotNull
+    @Column(nullable = false)
 	private Boolean enabled;
     
 	private String name;
