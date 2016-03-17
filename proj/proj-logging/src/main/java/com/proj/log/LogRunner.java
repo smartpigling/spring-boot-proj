@@ -13,12 +13,9 @@ public class LogRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(LogRunner.class, args);
 		
-		logger.debug("logging debug test!!!!!!!!!!!!!!!!!!");
-		logger.error("logging error test!!!!!!!!!!!!!!!!!!");
-		logger.info("aaaaaaaaaaaaaaaa");
-		logger.info("aaaaaaaaaaaaaaaa XX ");
-		logger.info("cccccccccccccccc XXXXXXX ");
-		logger.info("cccccccccccccccc xx ");
+		logger.info("logback info!");
+		logger.debug("logback debug!");
+		logger.error("logback error!");
 	}
 
 }
