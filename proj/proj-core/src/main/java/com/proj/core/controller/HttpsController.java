@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class HttpsController {
 	
 	
-    @RequestMapping("/test")
+    @RequestMapping("/")
     public String test() {
-
-        return "HTTPS test!";
+        return "HTTPS OK!";
     }
 }
