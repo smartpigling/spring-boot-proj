@@ -1,12 +1,12 @@
-
-
 repositories {
-    flatDir dirs: "libs"
+	flatDir {
+		dirs 'libs'
+	}
 }
- 
+
 
 dependencies {
-    compile fileTree(dir: 'libs', includes: ['*.jar'])
-    runtime fileTree(dir: 'libs', includes: ['*.jar'])
+    compile fileTree(dir: 'libs', includes: ['**/*.java'])
+    runtime fileTree(dir: 'libs', includes: ['**/*.java'])
 }
 
