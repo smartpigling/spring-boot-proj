@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class HttpsController {
+public class AccessController {
 	
 	
-    @RequestMapping("/")
-    public String test() {
+    @RequestMapping("/testTrans")
+    public String testTrans() {
         return "HTTPS OK!";
     }
 }

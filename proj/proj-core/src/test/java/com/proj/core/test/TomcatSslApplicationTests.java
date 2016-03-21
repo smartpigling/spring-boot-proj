@@ -28,13 +28,13 @@ import com.proj.core.CoreRunner;
 @WebAppConfiguration
 @DirtiesContext
 @IntegrationTest({"server.port=0"})
-public class SampleTomcatSslApplicationTests {
+public class TomcatSslApplicationTests {
 
 	@Value("${local.server.port}")
 	private int port;
 
 	@Test
-	public void testHome() throws Exception {
+	public void testTrans() throws Exception {
 		SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(
 				new SSLContextBuilder()
 						.loadTrustMaterial(null, new TrustSelfSignedStrategy()).build());
@@ -46,7 +46,7 @@ public class SampleTomcatSslApplicationTests {
 		((HttpComponentsClientHttpRequestFactory) testRestTemplate.getRequestFactory())
 				.setHttpClient(httpClient);
 		ResponseEntity<String> entity = testRestTemplate
-				.getForEntity("https://localhost:" + this.port, String.class);
+				.getForEntity("https://localhost:" + this.port+"/testTrans", String.class);
 		assertThat(entity.getStatusCode(), equalTo(HttpStatus.OK));
 		assertThat(entity.getBody(), equalTo("HTTPS OK!"));
 	}
