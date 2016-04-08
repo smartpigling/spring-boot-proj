@@ -19,8 +19,6 @@ public interface SysUserRepository extends JpaRepository<SysUser, String> {
 
 	public SysUser getByUsername(String username);
 
-	public Collection<GrantedAuthority> loadUserAuthorities(String username);
-
 	public Page<SysUser> findByUsernameContainingIgnoreCase(String username, Pageable pageable);
 
 	@Query(value = "SELECT * FROM SYS_AUTHORITY WHERE AUTHORITY_ID IN( "+  

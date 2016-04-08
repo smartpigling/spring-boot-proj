@@ -31,8 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final Logger logger =LoggerFactory.getLogger(WebSecurityConfig.class);
 
-	private static final String[] UNSECURED_RESOURCE_LIST = new String[] { "/resources/**", "/js/**", "/css/**",
-			"/webjars/**", "/images/**", "/h2-console/**"};
+	private static final String[] UNSECURED_RESOURCE_LIST = new String[] { "/resources/**", "/bootstrap/**", "/libs/**",
+			"/plugins/**", "theme", "/images/**", "/h2-console/**"};
 
 	private static final String[] UNAUTHORIZED_RESOURCE_LIST = new String[] {  "/", "/test.html", "/unauthorized*",
 			"/error*", "exception*", "/users*", "/accessDenied" };

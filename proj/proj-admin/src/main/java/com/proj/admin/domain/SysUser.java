@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -67,6 +68,7 @@ public class SysUser implements UserDetails,Serializable{
 	
 	private String orgName;//所属机构名称
 	
+	@Transient
 	private Collection<GrantedAuthority>  authorities;
 
 	public String getUserId() {
