@@ -8,10 +8,14 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.proj.admin.service.AdminSecurityInterceptor;
-import com.proj.admin.service.ThymeleafLayoutInterceptor;
+import com.proj.admin.filter.ThymeleafLayoutInterceptor;
 
-
+/**
+ * Admin MVC Adapter 用户自定义
+ * 
+ * @author Tang Xiaochuan
+ *
+ */
 
 @EnableAutoConfiguration
 @Controller

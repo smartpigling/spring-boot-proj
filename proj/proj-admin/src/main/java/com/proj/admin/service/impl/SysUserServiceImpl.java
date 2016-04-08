@@ -20,7 +20,7 @@ import com.proj.admin.domain.SysUserRepository;
 import com.proj.admin.service.SysUserService;
 
 
-@Component("SysUsersService")
+@Component("SysUserService")
 @Transactional
 public class SysUserServiceImpl implements SysUserService{
 	

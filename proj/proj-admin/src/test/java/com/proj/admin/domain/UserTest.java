@@ -54,50 +54,38 @@ public class UserTest {
 	private MockMvc mockMvc;
 	
     @Autowired 
-    UserRepository userRepository;
+    SysUserRepository sysUserRepository;
     
     @Autowired 
-    RoleRepository roleRepository;
+    SysRoleRepository sysRoleRepository;
     
     
-    @Autowired 
-    AuthorityRepository authorityRepository;
+
 
     
-    User tom;
-    User jarry;
-    
-    Role role_admin;
-    Role role_user;
-
+    SysUser tom;
 
     @Before
     public void setUp() {
     	this.mockMvc = webAppContextSetup(this.wac).build();
     	
-        tom = new User(1L,"tom","tom",true,"tom","tom@proj.com",false,false);
-        jarry = new User(2L,"jarry","jarry",true,"jarry","jarry@proj.com",false,false);
+        tom = new SysUser();
         
-        
-        role_admin = new Role(1L,"ROLE_ADMIN");
-        role_user = new Role(2L,"ROLE_USER");
-        
+//        tom.setRoles(new HashSet<Role>(){{
+//        	add(role_admin);
+//        	add(role_user);
+//        }});      
 
-        jarry.setRoles(new HashSet<Role>(){{
-        	add(role_admin);
-        	add(role_user);
-        }});      
-
-//        userRepository.deleteAllInBatch();
+//        sysUserRepository.deleteAllInBatch();
 //        roleRepository.deleteAllInBatch();
-//        userRepository.save(Arrays.asList(tom, jarry));
+//        sysUserRepository.save(Arrays.asList(tom, jarry));
         
 
     }
 
 
     public void canFetchUser() throws Exception {
-        Long id = jarry.getId();
+        String id = tom.getUserId();
 
         this.mockMvc.perform(get("/userInfo/{id}"))
         	.andExpect(status().isOk())
@@ -107,8 +95,8 @@ public class UserTest {
 
 
     public void canFetchAll() {
-    	List<User> list =userRepository.findAll();
-    	for(User u : list){
+    	List<SysUser> list =sysUserRepository.findAll();
+    	for(SysUser u : list){
     		logger.info(u.toString());
     	}
     }
@@ -117,7 +105,7 @@ public class UserTest {
     public void canFetchUserPage(){
     	String username="";
     	Pageable pageable=new PageRequest(0,10);
-    	Page<User> page = userRepository.findByUsernameContainingIgnoreCase(username, pageable);
+    	Page<SysUser> page = sysUserRepository.findByUsernameContainingIgnoreCase(username, pageable);
     	logger.info(page.getContent().toString());
     	logger.info(String.valueOf(page.getSize()));
     	logger.info(String.valueOf(page.getTotalElements()));
@@ -127,14 +115,14 @@ public class UserTest {
     
     
     public void canDeleteUser() {
-    	User u = userRepository.findByUsername("jarry");
-    	userRepository.delete(u);
+    	SysUser u = sysUserRepository.getOne("");
+    	sysUserRepository.delete(u);
     }
     
     
     public void canFindUserAuthorities(){
-    	List<Object[]> auths = userRepository.findAuthorityByUsername("jarry");
-    	for(Object[] auth: auths){
+    	List<SysAuthority> auths = sysUserRepository.findSysAuthoritiesByUsername("tom");
+    	for(SysAuthority auth: auths){
 //    		Authority _auth = (Authority)auth;
     		logger.info("jarry auths:"+auth);
     	}

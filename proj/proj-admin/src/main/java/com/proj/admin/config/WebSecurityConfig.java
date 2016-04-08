@@ -19,8 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
-import com.proj.admin.service.AdminUserDetailsService;
-import com.proj.admin.service.LoginSuccessHandler;
+import com.proj.admin.filter.LoginSuccessHandler;
+import com.proj.admin.service.impl.AdminUserDetailsService;
 
 
 @Configuration

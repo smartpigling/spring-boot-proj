@@ -1,22 +1,18 @@
-package com.proj.admin.service;
+package com.proj.admin.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityMessageSource;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
-import com.proj.admin.domain.UserRepository;
+import com.proj.admin.domain.SysUser;
+import com.proj.admin.service.SysUserService;
 
 
 @Component
@@ -27,14 +23,14 @@ public class AdminUserDetailsService implements UserDetailsService{
 	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 	
 	@Autowired
-	private UserRepository userRepository;
+	private SysUserService sysUserService;
 	
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.proj.admin.domain.User u = userRepository.findByUsername(username);
+		SysUser user = sysUserService.getUserByUsername(username);
 		
-		if (u == null){
+		if (user == null){
 			 throw new UsernameNotFoundException(messages.getMessage(
 	                    "User.notFound", new Object[] { username },
 	                    "Username {0} not found"));
@@ -42,14 +38,10 @@ public class AdminUserDetailsService implements UserDetailsService{
 		
 		logger.info(String.format("user [%s] login success !",username));
 		
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		List<Object[]> u_auths = userRepository.findAuthorityByUsername(username);
-		for(Object[] u_auth : u_auths){
-			authorities.add(new SimpleGrantedAuthority((String) u_auth[2]));
-		}
+		Collection<GrantedAuthority> auths = sysUserService.loadUserAuthorities(username);
+		user.setAuthorities(auths);
 		
-		return new org.springframework.security.core.userdetails.User(
-				u.getUsername(), u.getPassword(),u.getEnabled(), !u.getAccountExpired(),true,!u.getAccountLocked(),authorities);
+		return user;
 	}
 
 }
