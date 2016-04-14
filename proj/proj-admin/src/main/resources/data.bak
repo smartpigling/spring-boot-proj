@@ -1,1 +1,1 @@
-insert into sys_user (user_id, name,username, password,created_time, enabled,  account_non_expired, account_non_locked,credentials_non_expired) values  (1, 'Admin', 'admin', '$2a$04$ng.tYkv.xnH0U3G3wvKCse4upJrcrb1K6TZbExCQktU5tpGB/gB2m', sysdate,true,  true, true,true);
+insert into sys_user (user_id, name,username, password,created_time, enabled,  account_non_expired, account_non_locked,credentials_non_expired) values  ('c305b355-a8c0-4d6f-80fc-e9a9d6d674f3', 'Admin', 'admin', '$2a$04$ng.tYkv.xnH0U3G3wvKCse4upJrcrb1K6TZbExCQktU5tpGB/gB2m', sysdate,true,  true, true,true);

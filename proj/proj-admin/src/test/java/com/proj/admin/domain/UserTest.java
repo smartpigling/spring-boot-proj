@@ -69,16 +69,19 @@ public class UserTest {
     public void setUp() {
     	this.mockMvc = webAppContextSetup(this.wac).build();
     	
-        tom = new SysUser();
-        
-//        tom.setRoles(new HashSet<Role>(){{
-//        	add(role_admin);
-//        	add(role_user);
-//        }});      
+    	for (int i = 0; i < 100; i++) {
+    		tom = new SysUser();
+    		tom.setName("tom"+i);
+    		tom.setUsername("tom"+i);
+    		tom.setPassword("$2a$04$ng.tYkv.xnH0U3G3wvKCse4upJrcrb1K6TZbExCQktU5tpGB/gB2m");
+    		tom.setEnabled(true);
+    		tom.setAccountNonExpired(true);
+    		tom.setAccountNonLocked(true);
+    		tom.setCredentialsNonExpired(true);
+    		sysUserRepository.save(tom);
+		}
 
-//        sysUserRepository.deleteAllInBatch();
-//        roleRepository.deleteAllInBatch();
-//        sysUserRepository.save(Arrays.asList(tom, jarry));
+        
         
 
     }

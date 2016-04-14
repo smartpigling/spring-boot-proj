@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.proj.admin.domain.SysUser;
 import com.proj.admin.service.SysUserService;
+import com.proj.admin.util.PageWrapper;
 
 /**
  * 系统用户配置
@@ -52,11 +53,16 @@ public class SysUserController {
 	
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String listUser(@PageableDefault Pageable pageable,
+	public String listUser(Pageable pageable,
 			@RequestParam(value="username", required=false, defaultValue="") String username,Model model){
-		Page<SysUser>  page= sysUserService.findSysUsersByUsername(username,
-				new PageRequest(pageable.getPageNumber()<= 0 ? 0 : pageable.getPageNumber()-1,
-						pageable.getPageSize(),new Sort(Sort.Direction.ASC,"username")));
+		
+        PageWrapper<SysUser> page = new PageWrapper<SysUser>(sysUserService.findSysUsersByUsername(
+        		username,pageable),"/users");
+		
+		
+//		Page<SysUser>  page= sysUserService.findSysUsersByUsername(username,
+//				new PageRequest(pageable.getPageNumber()<= 0 ? 0 : pageable.getPageNumber()-1,
+//						pageable.getPageSize(),new Sort(Sort.Direction.ASC,"username")));
 
 		model.addAttribute("page",page);
 		model.addAttribute("username",username);

@@ -1,4 +1,4 @@
-package com.proj.admin.config;
+package com.proj.admin.util;
 
 import javax.servlet.http.HttpServletRequest;
 

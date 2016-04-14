@@ -52,8 +52,8 @@
 			                <th>Delete</th>
 			            </tr>
 		            </thead>
-		            <tbody th:if="${not #lists.isEmpty(page.content)}">
-			            <tr th:each="user : ${page.content}">
+		            <tbody>
+			            <tr th:each="user : ${page.content}" th:if="${not #lists.isEmpty(page.content)}">
 			                <td th:text="${user.userId}">id</td>
 			                <td th:text="${user.username}">username</td>
 			                <td th:text="${user.name}">name</td>
