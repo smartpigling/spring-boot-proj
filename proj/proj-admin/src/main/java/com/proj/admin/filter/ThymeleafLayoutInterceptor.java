@@ -1,5 +1,7 @@
 package com.proj.admin.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
 
-    private static final String DEFAULT_LAYOUT = "layouts/index";
+	private static final Logger logger =LoggerFactory.getLogger(ThymeleafLayoutInterceptor.class);
+	
+    private static final String DEFAULT_LAYOUT = "layouts/default";
     private static final String DEFAULT_VIEW_ATTRIBUTE_NAME = "view";
 
     private String defaultLayout = DEFAULT_LAYOUT;
@@ -38,6 +42,7 @@ public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
         }
         String layoutName = getLayoutName(handler);
         modelAndView.setViewName(layoutName);
+        
         modelAndView.addObject(this.viewAttributeName, originalViewName);
     }
 

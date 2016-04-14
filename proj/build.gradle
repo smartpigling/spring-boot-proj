@@ -41,10 +41,12 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-redis')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('com.vaadin:vaadin-spring-boot-starter:1.0.0')
+	compile('mysql:mysql-connector-java')
 	runtime('com.h2database:h2')	
 	
 	compile project(':proj-lib')
 	compile project(':proj-logging')
+	compile project(':proj-properties')
 	compile project(':proj-serv-demo')
 	
 	testCompile('org.springframework.boot:spring-boot-starter-test') 

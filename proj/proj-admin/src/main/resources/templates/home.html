@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="row" th:fragment="content">
+	<div class="col-xs-12">
+		<h2 class="page-header">
+			<i class="fa fa-gears"></i> 智网科技开发平台 
+			<small class="pull-right"><span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm')}"></span></small>
+		</h2>
+	</div>
+	<!-- /.col -->
+</div>
+
+
+</html>

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.proj.admin.domain.SysUser;
 import com.proj.admin.service.SysUserService;
 
@@ -53,9 +52,8 @@ public class SysUserController {
 	
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public String listUser(@PageableDefault Pageable pageable,@RequestParam(value="username", required=false, defaultValue="") 
-							String username,Model model){
-		
+	public String listUser(@PageableDefault Pageable pageable,
+			@RequestParam(value="username", required=false, defaultValue="") String username,Model model){
 		Page<SysUser>  page= sysUserService.findSysUsersByUsername(username,
 				new PageRequest(pageable.getPageNumber()<= 0 ? 0 : pageable.getPageNumber()-1,
 						pageable.getPageSize(),new Sort(Sort.Direction.ASC,"username")));

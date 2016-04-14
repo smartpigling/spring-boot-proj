@@ -30,7 +30,7 @@ public class GeneralAccessConfig {
 		model.put("message", "Project 项目首页");
 		model.put("title", "Project Home");
 		model.put("date", new Date());
-		return "layouts/default";
+		return "home";
 	}
 	
 	@RequestMapping("/unauthorized")

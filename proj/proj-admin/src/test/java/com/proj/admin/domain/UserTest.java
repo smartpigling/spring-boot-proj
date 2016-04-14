@@ -93,7 +93,7 @@ public class UserTest {
         	.andExpect(jsonPath("$.name").value("jarry"));
     }
 
-
+    @Test
     public void canFetchAll() {
     	List<SysUser> list =sysUserRepository.findAll();
     	for(SysUser u : list){
@@ -101,9 +101,9 @@ public class UserTest {
     	}
     }
 
-    @Test
+    
     public void canFetchUserPage(){
-    	String username="";
+    	String username="t";
     	Pageable pageable=new PageRequest(0,10);
     	Page<SysUser> page = sysUserRepository.findByUsernameContainingIgnoreCase(username, pageable);
     	logger.info(page.getContent().toString());
@@ -131,7 +131,7 @@ public class UserTest {
     
     public void canCreatePassword(){
     	BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(4);
-    	logger.info("BCryptPasswordEncoder :"+passwordEncoder.encode("tom"));
+    	logger.info("BCryptPasswordEncoder :"+passwordEncoder.encode("admin"));
     }
     
     
