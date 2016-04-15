@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<body>
 
-	<div th:fragment="page">
+
+<div th:fragment="page">
 	
     <ul class="pagination">
       <li th:class="${page.firstPage}? 'disabled' : '' ">
         <span th:if="${page.firstPage}">&laquo;</span>
-        <a th:if="${not page.firstPage}" th:href="@{${page.url}(page.page=1,page.size=${page.size})}">&laquo;</a>
+        <a th:if="${not page.firstPage}" th:href="@{${page.url}(page=0,size=${page.size})}">&laquo;</a>
       </li>
       <li th:class="${page.hasPreviousPage}? '' : 'disabled' ">
         <span th:if="${not page.hasPreviousPage}">&lsaquo;</span>
-        <a th:if="${page.hasPreviousPage}" th:href="@{${page.url}(page.page=${page.number-1},page.size=${page.size})}' title='Go to previous page">&lsaquo;</a>
+        <a th:if="${page.hasPreviousPage}" th:href="@{${page.url}(page=${page.number-1},size=${page.size})}" title="上一页">&lsaquo;</a>
       </li>
       <li th:each="item : ${page.items}" th:class="${item.current}? 'active' : '' ">
-        <span th:if="${item.current}" th:text="${item.number}">1</span>
-        <a th:if="${not item.current}" th:href="@{${page.url}(page.page=${item.number},page.size=${page.size})}"><span th:text="${item.number}">1</span></a>
+        <span th:if="${item.current}" th:text="${item.number+1}">1</span>
+        <a th:if="${not item.current}" th:href="@{${page.url}(page=${item.number},size=${page.size})}"><span th:text="${item.number+1}">1</span></a>
       </li>
       <li th:class="${page.hasNextPage}? '' : 'disabled' ">
         <span th:if="${not page.hasNextPage}">&rsaquo;</span>
-        <a th:if="${page.hasNextPage}" th:href="@{${page.url}(page.page=${page.number+1},page.size=${page.size})}" title="Go to next page">&rsaquo;</a>
+        <a th:if="${page.hasNextPage}" th:href="@{${page.url}(page=${page.number+1},size=${page.size})}" title="下一页">&rsaquo;</a>
       </li>
       <li th:class="${page.lastPage}? 'disabled' : '' ">
         <span th:if="${page.lastPage}">&raquo;</span>
-        <a th:if="${not page.lastPage}" th:href="@{${page.url}(page.page=${page.totalPages},page.size=${page.size})}">&raquo;</a>
+        <a th:if="${not page.lastPage}" th:href="@{${page.url}(page=${page.totalPages-1},size=${page.size})}">&raquo;</a>
       </li>
     </ul>
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/
+						
+			$(".pagination li a").click(function(){
+				$(this).attr("href",$(this).attr("href") + "&"+$(".search-form").serialize());
+			});
+			
+			/*]]>*/
+		</script>
+</div>
 
-	</div>
 
-
-</body>
 </html>

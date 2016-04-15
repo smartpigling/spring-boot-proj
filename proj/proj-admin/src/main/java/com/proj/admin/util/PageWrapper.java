@@ -3,9 +3,14 @@ package com.proj.admin.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 
 public class PageWrapper<T> {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PageWrapper.class);
+	
     public static final int MAX_PAGE_ITEM_DISPLAY = 5;
     private Page<T> page;
     private List<PageItem> items;
@@ -21,22 +26,23 @@ public class PageWrapper<T> {
     }
 
     public PageWrapper(Page<T> page, String url){
+    	
         this.page = page;
         this.url = url;
         items = new ArrayList<PageItem>();
 
-        currentNumber = page.getNumber() + 1; //start from 1 to match page.page
+        currentNumber = page.getNumber() ; 
 
         int start, size;
         if (page.getTotalPages() <= MAX_PAGE_ITEM_DISPLAY){
-            start = 1;
+            start = 0;
             size = page.getTotalPages();
         } else {
             if (currentNumber <= MAX_PAGE_ITEM_DISPLAY - MAX_PAGE_ITEM_DISPLAY/2){
-                start = 1;
+                start = 0;
                 size = MAX_PAGE_ITEM_DISPLAY;
             } else if (currentNumber >= page.getTotalPages() - MAX_PAGE_ITEM_DISPLAY/2){
-                start = page.getTotalPages() - MAX_PAGE_ITEM_DISPLAY + 1;
+                start = page.getTotalPages() - MAX_PAGE_ITEM_DISPLAY;
                 size = MAX_PAGE_ITEM_DISPLAY;
             } else {
                 start = currentNumber - MAX_PAGE_ITEM_DISPLAY/2;

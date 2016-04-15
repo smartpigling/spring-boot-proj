@@ -191,6 +191,15 @@ public class SysUser implements UserDetails,Serializable{
 		this.authorities = authorities;
 	}
 
+	@Override
+	public String toString() {
+		return "SysUser [userId=" + userId + ", username=" + username + ", password=" + password + ", name=" + name
+				+ ", enabled=" + enabled + ", accountNonExpired=" + accountNonExpired + ", accountNonLocked="
+				+ accountNonLocked + ", credentialsNonExpired=" + credentialsNonExpired + ", createdTime=" + createdTime
+				+ ", lastLogin=" + lastLogin + ", validTime=" + validTime + ", loginIp=" + loginIp + ", orgId=" + orgId
+				+ ", orgName=" + orgName + ", authorities=" + authorities + "]";
+	}
+
 
 
 
