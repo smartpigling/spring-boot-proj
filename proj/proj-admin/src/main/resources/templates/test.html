@@ -1,1 +1,68 @@
-test
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:fragment="page">
+	
+	<div class="btn-group pagination">
+		<div th:with="firstPage = ${page.firstPage}">
+			<div th:if="${firstPage}">
+				<a type="button" class="btn btn-default btn-sm disabled"><i class="fa fa-angle-double-left"></i></a>	
+			</div>
+			<div th:unless="${firstPage}">
+				<a type="button" class="btn btn-default btn-sm" th:href="@{${page.url}(page=0,size=${page.size})}" title="首页"><i class="fa fa-angle-double-left"></i></a>			
+			</div>
+		</div>
+		
+		
+		<div th:with="hasPreviousPage = ${page.hasPreviousPage}">
+			<div th:if="${hasPreviousPage}">
+				<a type="button" class="btn btn-default btn-sm" th:href="@{${page.url}(page=${page.number-1},size=${page.size})}" title="上一页"><i class="fa fa-angle-left"></i></a>	
+			</div>
+			<div th:unless="${hasPreviousPage}">
+				<a type="button" class="btn btn-default btn-sm disabled"><i class="fa fa-angle-left"></i></a>			
+			</div>
+		</div>		
+		
+		
+		<a type="button" class="btn btn-default btn-sm"><i class="fa fa-angle-left"></i></a>
+		<a type="button" class="btn btn-default btn-sm"><i class="fa fa-angle-right"></i></a>
+		<a type="button" class="btn btn-default btn-sm"><i class="fa fa-angle-double-right"></i></a>
+	</div>	
+	
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/
+			//查询翻页带参			
+			$(".pagination li a").click(function(){
+				$(this).attr("href",$(this).attr("href") + "&"+$(".search-form").serialize());
+			});
+			
+
+			/**
+			*  全选
+			*
+			*  <th><button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></th>
+			*
+			*  <td><input type="checkbox"/></td>
+			**/
+						
+		    $(".checkbox-toggle").click(function () {
+		        var clicks = $(this).data('clicks');
+		        if (clicks) {
+		          //Uncheck all checkboxes
+		          $(".table input[type='checkbox']").iCheck("uncheck");
+		          $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+		        } else {
+		          //Check all checkboxes
+		          $(".table input[type='checkbox']").iCheck("check");
+		          $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+		        }
+		        $(this).data("clicks", !clicks);
+		      });			
+			
+			/*]]>*/
+		</script>
+</div>
+
+
+</html>

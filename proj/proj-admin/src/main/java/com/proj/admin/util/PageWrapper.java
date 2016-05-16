@@ -30,7 +30,7 @@ public class PageWrapper<T> {
         this.page = page;
         this.url = url;
         items = new ArrayList<PageItem>();
-
+        
         currentNumber = page.getNumber() ; 
 
         int start, size;

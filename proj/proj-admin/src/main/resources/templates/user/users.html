@@ -6,57 +6,106 @@
 		<div class="box">
 			<div class="box-header with-border">
 				<form class="form-inline search-form" action="#" th:action="@{/users}">
-					<div class="form-group">
-						<label for="username">账号</label> 
-						<input type="text" class="form-control" name="username" th:value="${username}" placeholder="账号" />
-					</div>
-					<div class="form-group">
-						<label for="name">姓名</label> 
-						<input type="text" class="form-control" name="name" th:value="${name}" placeholder="姓名" />
-					</div>
-					<div class="checkbox">
-						<label> 
-							<input type="checkbox" name="enabled" th:checked="${enabled}"/> 是否可用
-						</label>
-					</div>
-					<button type="submit" class="btn btn-default">查询</button>
+					<div class="">
+						<div class="form-group">
+							<label for="username">账号</label> 
+							<input type="text" class="form-control" name="username" th:value="${username}" placeholder="账号" />
+						</div>
+						<div class="form-group">
+							<label for="name">姓名</label> 
+							<input type="text" class="form-control" name="name" th:value="${name}" placeholder="姓名" />
+						</div>
+						<div class="checkbox">
+							<label> 
+								<input type="checkbox" name="enabled" th:checked="${enabled}"/> 是否可用
+							</label>
+						</div>
+						<button type="submit" class="btn btn-default"><i class="fa fa-search"></i>查询</button>					
+					</div>					
 				</form>
 			</div>
 			<!-- /.box-header -->
-			<div class="box-body">
-				<table class="table table-bordered table-striped">
+			<div class="box-body no-padding">
+				<div class="mailbox-controls">
+					<!-- Check all button -->
+					<a class="btn btn-default btn-sm checkbox-toggle" title="全选">
+						<i class="fa fa-square-o"></i>
+					</a>
+					<div class="btn-group">
+						<a class="btn btn-default btn-sm" title="删除" id="multi_del">
+							<i class="fa fa-trash-o"></i>
+						</a>
+						<a th:href="${'/user/new'}" class="btn btn-default btn-sm" title="添加">
+							<i class="fa fa-plus"></i>
+						</a>
+					</div>
+					<!-- /.btn-group -->
+					<a class="btn btn-default btn-sm" title="刷新">
+						<i class="fa fa-refresh"></i>
+					</a>
+
+					<div class="pull-right">
+						<!--/*/ <th:block th:include="pagination_tr::page"></th:block> /*/-->
+					</div>
+				</div>
+
+
+				<table class="table table-hover table-bordered table-striped">
 					<thead>
 						<tr>
-							<th> 
-								<button type="button" class="btn btn-default btn-xs checkbox-toggle"><i class="fa fa-square-o"></i></button>
-							</th>
+							<th style="width: 10px"></th>
 							<th>账号</th>
 							<th>姓名</th>
 							<th>是否可用</th>
-							<th>操作</th>
+							<th>是否过期</th>
+							<th>是否锁定</th>
+							<th>证书有效</th>
+							<th style="width: 80px">操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="user : ${page.content}" th:if="${not #lists.isEmpty(page.content)}">
-							<td><input type="checkbox"/></td>
+						<tr th:each="user : ${page.content}"
+							th:if="${not #lists.isEmpty(page.content)}">
+							<td><input type="checkbox" th:value="${user.userId}"/></td>
 							<td th:text="${user.username}">username</td>
 							<td th:text="${user.name}">name</td>
-							<td>
-								<i th:class="${user.enabled} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
+							<td><i th:class="${user.enabled} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
+							</td>
+							<td><i th:class="${user.accountNonExpired} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
+							</td>
+							<td><i th:class="${user.accountNonLocked} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
+							</td>
+							<td><i th:class="${user.credentialsNonExpired} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
 							</td>
 							<td>
-								<a th:href="${'/user/'+user.userId}"><i class="fa fa-lg fa-sign-in"></i></a>
-								<a th:href="${'/user/edit/' + user.userId}"><i class="fa fa-lg fa-pencil-square-o"></i></a>
-								<a th:href="${'/user/delete/' + user.userId}"><i class="fa fa-lg fa-trash"></i></a>
+								<a th:href="${'/user/'+user.userId}"><i class="fa fa-sign-in fa-fw"></i></a> 
+								<a th:href="${'/user/edit/' + user.userId}"><i class="fa fa-pencil-square-o fa-fw"></i></a> 
+								<a th:href="${'/user/delete/' + user.userId}"><i class="fa fa-trash-o fa-fw"></i></a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				<!--/*/ <th:block th:include="pagination::page"></th:block> /*/-->
+				<!--pagination-->
 			</div>
 			<!-- /.box-body -->
 		</div>
 		<!-- /.box -->
 	</div>
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/
+				$("#multi_del").click(function () {
+					alert('dfff');
+					var cb_data =[];
+					$(".table input[type='checkbox']").each(function(){
+						if($(this).checked == 'checked'){
+							cb_data.push($(this).value());
+						}
+						
+					});
+					alert(cb_data);
+				});
+			           
+			/*]]>*/
+		</script>			           
 </div>
 </html>

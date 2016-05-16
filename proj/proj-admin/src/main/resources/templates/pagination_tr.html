@@ -3,8 +3,8 @@
 
 
 <div th:fragment="page">
-	
-    <ul class="pagination">
+
+    <ul class="pagination no-margin">
       <li th:class="${page.firstPage}? 'disabled' : '' ">
         <span th:if="${page.firstPage}">&laquo;</span>
         <a th:if="${not page.firstPage}" th:href="@{${page.url}(page=0,size=${page.size})}">&laquo;</a>
@@ -28,6 +28,7 @@
     </ul>
 		<script type="text/javascript" th:inline="javascript">
 			/*<![CDATA[*/
+			           
 			//查询翻页带参			
 			$(".pagination li a").click(function(){
 				$(this).attr("href",$(this).attr("href") + "&"+$(".search-form").serialize());
