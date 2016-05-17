@@ -80,4 +80,10 @@ public class SysUserServiceImpl implements SysUserService{
 	public void delUserByUserId(String userId) {
 		sysUserRepository.delete(userId);
 	}
+
+
+	@Override
+	public void delUsers(List<SysUser> users) {
+		sysUserRepository.delete(users);
+	}
 }

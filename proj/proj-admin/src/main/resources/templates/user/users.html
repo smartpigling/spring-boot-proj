@@ -32,7 +32,8 @@
 						<i class="fa fa-square-o"></i>
 					</a>
 					<div class="btn-group">
-						<a class="btn btn-default btn-sm" title="删除" id="multi_del">
+						<a class="btn btn-default btn-sm" title="删除" 
+							data-toggle="modal" data-target="#delete_modal" data-url="/user/delete">
 							<i class="fa fa-trash-o"></i>
 						</a>
 						<a th:href="${'/user/new'}" class="btn btn-default btn-sm" title="添加">
@@ -40,7 +41,7 @@
 						</a>
 					</div>
 					<!-- /.btn-group -->
-					<a class="btn btn-default btn-sm" title="刷新">
+					<a class="btn btn-default btn-sm" title="刷新" onclick="javascript:window.location.reload();">
 						<i class="fa fa-refresh"></i>
 					</a>
 
@@ -91,21 +92,17 @@
 		</div>
 		<!-- /.box -->
 	</div>
-		<script type="text/javascript" th:inline="javascript">
-			/*<![CDATA[*/
-				$("#multi_del").click(function () {
-					alert('dfff');
-					var cb_data =[];
-					$(".table input[type='checkbox']").each(function(){
-						if($(this).checked == 'checked'){
-							cb_data.push($(this).value());
-						}
-						
-					});
-					alert(cb_data);
-				});
+	<!--/*/ <th:block th:include="windows::modal"></th:block> /*/-->
+	
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		           
+	           
+		 
+
+		           
+		/*]]>*/
+	</script>	
 			           
-			/*]]>*/
-		</script>			           
 </div>
 </html>

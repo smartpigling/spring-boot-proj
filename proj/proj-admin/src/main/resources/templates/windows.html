@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:fragment="modal">
+
+	<!-- delete modal -->
+	<div id="delete_modal" class="modal modal-danger fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">删除</h4>
+				</div>
+				<div class="modal-body">
+					<p>您确定执行此操作？</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-outline" id="delete_ok">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.delete modal -->
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		           
+		           
+			/**
+			* 全选
+			**/
+						
+		    $(".checkbox-toggle").click(function () {
+		        var clicks = $(this).data('clicks');
+		        if (clicks) {
+		          //Uncheck all checkboxes
+		          $(".table input[type='checkbox']").iCheck("uncheck");
+		          $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+		        } else {
+		          //Check all checkboxes
+		          $(".table input[type='checkbox']").iCheck("check");
+		          $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+		        }
+		        $(this).data("clicks", !clicks);
+		      });			           
+		           
+		           
+			/**
+			* 模态批量删除
+			**/
+			
+			$("#delete_ok").click(function () {
+				
+				var _url = $("a[data-target='#delete_modal']").attr("data-url");
+				var checked_data =[];
+				$(".table input[type='checkbox']:checked").each(function(){
+					checked_data.push($(this).val());
+				});
+				
+				if(checked_data && checked_data.length > 0){
+					$.post( _url,
+						{
+							'_csrf': [[${_csrf.token}]],
+							'userIds':checked_data.toString()
+						},
+						function(data,status){
+							if(data && data['result']=='success'){
+								window.location.reload();
+							}
+						}
+					);					
+				}
+				$('#delete_ok').attr('data-dismiss', 'modal');
+				
+				
+			});	
+			
+			/**
+			*  删除
+			* _url:/user/deleteMulti
+			* _data:{userIds:[]}
+			*/
+			function remove(_url, _data){ 
+				var r = confirm("您确定执行此操作？"); 
+				if (r == true) { 
+					$.ajax({ 
+						type : "POST",
+						headers:{
+							'X-CSRF-TOKEN':/*[[${_csrf.token}]]*/
+						},						
+						url :  _url, 
+						data : _data, 
+						success : function(data) { 
+							if(data && data['result']=='success'){
+								window.location.reload();
+							}
+						}, 
+						error : function(e) { 
+							alert('Failed!: ' + e); 
+						} 
+					}); 
+				}
+			} 		
+		/*]]>*/
+	</script>	
+
+
+</div>
+
+</html>

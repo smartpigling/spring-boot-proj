@@ -1,6 +1,7 @@
 package com.proj.admin.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,6 @@ public interface SysUserService {
 	public SysUser getUserByUserId(String userId);
 	
 	public void delUserByUserId(String userId);
+	
+	public void delUsers(List<SysUser> users);
 }
