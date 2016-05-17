@@ -73,7 +73,10 @@ public class SysUserController {
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String listUser(@PageableDefault(sort={"username"},direction = Direction.ASC) Pageable pageable,
-			@RequestParam(value="username", required=false, defaultValue="") String username,Model model){
+			@RequestParam(value="username", required=false, defaultValue="") String username,
+			@RequestParam(value="name", required=false) String name,
+			@RequestParam(value="enabled", required=false) String enabled,
+			Model model){
 		
 		logger.info("username:"+username);
 		
@@ -82,6 +85,8 @@ public class SysUserController {
         
 		model.addAttribute("page",page);
 		model.addAttribute("username",username);
+		model.addAttribute("enabled",enabled);
+		model.addAttribute("name",name);
 		return "user/users";
 	}
 	

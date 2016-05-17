@@ -70,13 +70,13 @@
 							<td><input type="checkbox" th:value="${user.userId}"/></td>
 							<td th:text="${user.username}">username</td>
 							<td th:text="${user.name}">name</td>
-							<td><i th:class="${user.enabled} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
+							<td><i th:class="${user.enabled} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
 							</td>
-							<td><i th:class="${user.accountNonExpired} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
+							<td><i th:class="${user.accountNonExpired} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
 							</td>
-							<td><i th:class="${user.accountNonLocked} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
+							<td><i th:class="${user.accountNonLocked} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
 							</td>
-							<td><i th:class="${user.credentialsNonExpired} ? 'fa fa-plus-circle':'fa fa-minus-circle' "></i>
+							<td><i th:class="${user.credentialsNonExpired} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
 							</td>
 							<td>
 								<a th:href="${'/user/'+user.userId}"><i class="fa fa-sign-in fa-fw"></i></a> 
