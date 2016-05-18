@@ -12,6 +12,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +27,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,7 +72,7 @@ public class UserTest {
     
     SysUser tom;
 
-    @Before
+    //@Before
     public void setUp() {
     	this.mockMvc = webAppContextSetup(this.wac).build();
     	
@@ -88,15 +95,15 @@ public class UserTest {
 
 
     public void canFetchUser() throws Exception {
-        String id = tom.getUserId();
+        String userId = tom.getUserId();
 
-        this.mockMvc.perform(get("/userInfo/{id}"))
+        this.mockMvc.perform(get("user/{userId}",userId))
         	.andExpect(status().isOk())
         	.andExpect(content().contentType(contentType))
         	.andExpect(jsonPath("$.name").value("jarry"));
     }
 
-    @Test
+    
     public void canFetchAll() {
     	List<SysUser> list =sysUserRepository.findAll();
     	for(SysUser u : list){
@@ -104,11 +111,17 @@ public class UserTest {
     	}
     }
 
-    
+    @Test
     public void canFetchUserPage(){
-    	String username="t";
+    	String username="";
+    	String name = "";
+    	boolean enabled=true;
     	Pageable pageable=new PageRequest(0,10);
-    	Page<SysUser> page = sysUserRepository.findByUsernameContainingIgnoreCase(username, pageable);
+    	
+    	
+    	Page<SysUser> page = sysUserRepository.findBySearchForm(pageable);
+    	
+//    	Page<SysUser> page = sysUserRepository.findByUsernameContainingIgnoreCase(username, pageable);
     	logger.info(page.getContent().toString());
     	logger.info(String.valueOf(page.getSize()));
     	logger.info(String.valueOf(page.getTotalElements()));

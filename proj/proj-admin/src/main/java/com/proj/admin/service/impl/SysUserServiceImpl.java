@@ -4,15 +4,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.proj.admin.domain.SysAuthority;
 import com.proj.admin.domain.SysUser;
@@ -20,13 +26,15 @@ import com.proj.admin.domain.SysUserRepository;
 import com.proj.admin.service.SysUserService;
 
 
-@Component("SysUserService")
-@Transactional
+@Service("SysUserService")
 public class SysUserServiceImpl implements SysUserService{
 	
 	private static final Logger logger =LoggerFactory.getLogger(SysUserServiceImpl.class);
 	
 	private final SysUserRepository sysUserRepository;
+	
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Autowired
 	public SysUserServiceImpl(SysUserRepository sysUserRepository){
@@ -83,7 +91,27 @@ public class SysUserServiceImpl implements SysUserService{
 
 
 	@Override
+	@Transactional
 	public void delUsers(List<SysUser> users) {
 		sysUserRepository.delete(users);
+	}
+	
+	/**
+	 * 自定义查询
+	 * @param pageable
+	 * @param params
+	 * @return
+	 */
+	public Page<SysUser> findCustomSearch(Pageable pageable, String username) {
+		StringBuffer qlString = new StringBuffer();
+		qlString.append(" select u from SysUser u where 1=1 ");
+		if(!StringUtils.isEmpty(username)){
+			qlString.append(" u.username = '").append(username).append("'");
+		}
+		TypedQuery<SysUser> query = em.createQuery(qlString.toString(), SysUser.class);
+		query.setFirstResult(pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		
+		return new PageImpl<SysUser>(query.getResultList());
 	}
 }
