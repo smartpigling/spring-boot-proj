@@ -7,17 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -27,8 +20,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -118,8 +109,10 @@ public class UserTest {
     	boolean enabled=true;
     	Pageable pageable=new PageRequest(0,10);
     	
+    	Map<String, Object> parameters = new HashMap<String, Object>();
+    	parameters.put("enabled", false);
     	
-    	Page<SysUser> page = sysUserRepository.findBySearchForm(pageable);
+    	Page<SysUser> page = sysUserRepository.findAll(SysUser.builderSearchWhereClause(parameters),pageable);
     	
 //    	Page<SysUser> page = sysUserRepository.findByUsernameContainingIgnoreCase(username, pageable);
     	logger.info(page.getContent().toString());

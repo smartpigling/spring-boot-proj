@@ -3,6 +3,7 @@ package com.proj.admin.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -67,8 +68,8 @@ public class SysUserServiceImpl implements SysUserService{
 	}
 	
 	@Override
-	public Page<SysUser> findSysUsersByUsername(String username, Pageable pageable) {
-		return sysUserRepository.findByUsernameContainingIgnoreCase(username, pageable);
+	public Page<SysUser> findSysUsers(Map<String, Object> criteria, Pageable pageable) {
+		return sysUserRepository.findAll(SysUser.builderSearchWhereClause(criteria),pageable);
 	}
 
 

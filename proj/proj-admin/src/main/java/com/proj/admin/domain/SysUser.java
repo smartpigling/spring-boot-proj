@@ -1,8 +1,11 @@
 package com.proj.admin.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +15,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 
 
@@ -24,8 +34,37 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SysUser implements UserDetails,Serializable{
 	
 	/**
-	 * 
+	 * users template search form
+	 * @param username
+	 * @param name
+	 * @param enabled
+	 * @return
 	 */
+    public static Specification<SysUser> builderSearchWhereClause(final Map<String, Object> criteria) {
+        return new Specification<SysUser>() {
+            @Override
+            public Predicate toPredicate(Root<SysUser> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            	List<Predicate> predicate = new ArrayList<Predicate>();
+            	if(!StringUtils.isEmpty(criteria.getOrDefault("username",""))){
+            		predicate.add(cb.like(root.get("username").as(String.class), "%"+criteria.get("username")+"%"));
+            	}
+            	
+            	if(!StringUtils.isEmpty(criteria.getOrDefault("name",""))){
+            		predicate.add(cb.like(root.get("name").as(String.class), "%"+criteria.get("name")+"%"));
+            	}
+            	
+				if(!StringUtils.isEmpty(criteria.getOrDefault("enabled","false"))){
+					predicate.add(cb.equal(root.get("enabled").as(Boolean.class), 
+							Boolean.parseBoolean(criteria.getOrDefault("enabled","false").toString())));
+				}
+            	
+                Predicate[] pre = new Predicate[predicate.size()];
+                return query.where(predicate.toArray(pre)).getRestriction();
+            }
+        };
+    }
+    
+    
 	private static final long serialVersionUID = -17286720695763652L;
 
 	@Id

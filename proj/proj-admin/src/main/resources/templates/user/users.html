@@ -5,19 +5,19 @@
 	<div class="col-xs-12">
 		<div class="box">
 			<div class="box-header with-border">
-				<form class="form-inline search-form" action="#" th:action="@{/users}">
+				<form class="form-inline search-form"  th:action="@{/users}">
 					<div class="">
 						<div class="form-group">
 							<label for="username">账号</label> 
-							<input type="text" class="form-control" name="username" th:value="${username}" placeholder="账号" />
+							<input type="text" class="form-control" name="username" th:value="${searchTerm['username']}" placeholder="账号" />
 						</div>
 						<div class="form-group">
 							<label for="name">姓名</label> 
-							<input type="text" class="form-control" name="name" th:value="${name}" placeholder="姓名" />
+							<input type="text" class="form-control" name="name" th:value="${searchTerm['name']}" placeholder="姓名" />
 						</div>
 						<div class="checkbox">
 							<label> 
-								<input type="checkbox" name="enabled" th:checked="${enabled}"/> 是否可用
+								<input type="checkbox" name="enabled" th:checked="${searchTerm['enabled']}" th:value="${searchTerm['enabled']}" /> 是否可用
 							</label>
 						</div>
 						<button type="submit" class="btn btn-default"><i class="fa fa-search"></i>查询</button>					

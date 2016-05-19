@@ -2,6 +2,7 @@ package com.proj.admin.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ public interface SysUserService {
 	
 	public SysUser getUserByUsername(String username); 
 	
-	public Page<SysUser> findSysUsersByUsername(String username, Pageable pageable);
+	public Page<SysUser> findSysUsers(Map<String, Object> criteria, Pageable pageable);
 	
 	public Collection<GrantedAuthority> loadUserAuthorities(String username); 
 	

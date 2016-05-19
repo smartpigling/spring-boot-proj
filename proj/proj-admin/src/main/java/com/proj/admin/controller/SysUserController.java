@@ -73,19 +73,15 @@ public class SysUserController {
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String listUser(@PageableDefault(sort={"createdTime"},direction = Direction.ASC) Pageable pageable,
-			@RequestParam(value="username", required=false, defaultValue="") String username,
-			@RequestParam(value="name", required=false) String name,
-			@RequestParam(value="enabled", required=false) String enabled,
+			@RequestParam Map<String, Object> searchTerm,
 			Model model){
-		//@RequestParam MultiValueMap<String, String> parameters
+		logger.info(searchTerm.toString());
 		
-        PageWrapper<SysUser> page = new PageWrapper<SysUser>(sysUserService.findSysUsersByUsername(
-        		username,pageable),"/users");
+        PageWrapper<SysUser> page = new PageWrapper<SysUser>(
+        		sysUserService.findSysUsers(searchTerm, pageable),"/users");
         
-		model.addAttribute("page",page);
-		model.addAttribute("username",username);
-		model.addAttribute("enabled",enabled);
-		model.addAttribute("name",name);
+		model.addAttribute("page", page);
+		model.addAttribute("searchTerm", searchTerm);
 		return "user/users";
 	}
 	
