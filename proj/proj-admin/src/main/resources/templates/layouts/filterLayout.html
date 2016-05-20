@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<!--  thymeleaf Layout ThymeleafLayoutInterceptor deprecated. -->
 	<!--/*/ <th:block th:include="headerinc::head"></th:block> /*/-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -157,26 +158,14 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> 
-            <span>Dashboard</span> 
+            <span>系统管理</span> 
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"  th:href="@{/users}"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            <li><a href="#"  th:href="@{/user/new}"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            <li><a href="#"  th:href="@{/users(enabled=true)}"><i class="fa fa-circle-o"></i>用户管理</a></li>
+            <li><a href="#"  th:href="@{/resources(enabled=true)}"><i class="fa fa-circle-o"></i>资源管理</a></li>
           </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-files-o"></i>
-            <span>Layout Options</span>
-            <span class="label label-primary pull-right">4</span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"  th:href="@{/users}"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-            <li><a href="#"  th:href="@{/users}"><i class="fa fa-circle-o"></i> Boxed</a></li>
-            <li><a href="#"  th:href="@{/users}"><i class="fa fa-circle-o"></i> Fixed</a></li>
-          </ul>
-        </li>        
+        </li>      
         <!-- Samples 事例 供开发人员查阅 -->
 		<!--/*/ <th:block th:include="sample_menu::menu"></th:block> /*/-->
       </ul>

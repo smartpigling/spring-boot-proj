@@ -1,12 +1,29 @@
 package com.proj.admin.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import com.proj.admin.domain.SysResourceRepository;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.proj.admin.domain.SysResource;
+import com.proj.admin.service.SysResourceService;
+import com.proj.admin.util.PageWrapper;
+import com.proj.admin.util.StringUtils;
 
 /**
  * 系统资源配置
@@ -18,44 +35,72 @@ import com.proj.admin.domain.SysResourceRepository;
 @Controller
 public class SysResourceController {
 
-//	@Autowired
-//	private SysResourceRepository sysResourceRepository;
-//	
-//	
-//	@RequestMapping("group/new")
-//	public String newGroup(Model model){
-//		model.addAttribute("group", new com.proj.admin.domain.Group());
-//		return "group/groupform";
-//	}
-//
-//	@RequestMapping(value = "group", method = RequestMethod.POST)
-//	public String saveGroup(com.proj.admin.domain.Group group){
-//		groupRepository.save(group);
-//		return "redirect:/group/"+group.getId();
-//	}
-//	
-//	@RequestMapping("group/{id}")
-//	public String showGroup(@PathVariable Long id, Model model){
-//		model.addAttribute("group", groupRepository.findOne(id));
-//		return "group/groupshow";
-//	}
-//	
-//	@RequestMapping(value = "/groups", method = RequestMethod.GET)
-//	public String listGroup(Model model){
-//		model.addAttribute("groups",groupRepository.findAll());
-//		return "group/groups";
-//	}
-//	
-//	@RequestMapping("group/edit/{id}")
-//	public String editGroup(@PathVariable Long id, Model model){
-//		model.addAttribute("group",groupRepository.findOne(id));
-//		return "group/groupform";
-//	}
-//	
-//	@RequestMapping("group/delete/{id}")
-//	public String deleteGroup(@PathVariable Long id){
-//		groupRepository.delete(id);
-//		return "redirect:/groups";
-//	}		
+	private static final Logger logger =LoggerFactory.getLogger(SysResourceController.class);
+    
+	@Autowired
+	private SysResourceService sysResourceService;
 	
+	
+	@RequestMapping("/resource/new")
+	public String newResource(Model model){
+		model.addAttribute("resource", new SysResource());
+		return "resource/resourceform";
+	}
+
+	@RequestMapping(value = "/resource", method = RequestMethod.POST)
+	public String saveResource(SysResource resource){
+		sysResourceService.saveResource(resource);
+		return "redirect:/resource/"+resource.getResourceId();
+	}
+	
+	@RequestMapping("/resource/{resourceId}")
+	public String showResource(@PathVariable String resourceId, Model model){
+		model.addAttribute("resource", sysResourceService.getResourceByResourceId(resourceId));
+		return "resource/resourceshow";
+	}
+	
+	
+	@RequestMapping(value = "/resources", method = RequestMethod.GET)
+	public String listResource(@PageableDefault(sort={"priority"},direction = Direction.DESC) Pageable pageable,
+			@RequestParam Map<String, Object> searchTerm,
+			Model model){
+        PageWrapper<SysResource> page = new PageWrapper<SysResource>(
+        		sysResourceService.findSysResources(searchTerm, pageable),"/resources");
+        
+		model.addAttribute("page", page);
+		model.addAttribute("searchTerm", searchTerm);
+		return "resource/resources";
+	}
+	
+	@RequestMapping("/resource/edit/{resourceId}")
+	public String editResource(@PathVariable String resourceId, Model model){
+		model.addAttribute("resource",sysResourceService.getResourceByResourceId(resourceId));
+		return "resource/resourceform";
+	}
+	
+	@RequestMapping(value = "/resource/delete/{resourceId}", method = RequestMethod.GET)
+	public String deleteResource(@PathVariable String resourceId){
+		sysResourceService.delResourceByResourceId(resourceId);
+		return "redirect:/resources";
+	}	
+	
+	@RequestMapping(value = "/resource/delete", method = RequestMethod.POST)
+	public @ResponseBody Map<String,Object> deleteResources(@RequestParam String ids){
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			String[] resourceIds = StringUtils.convertStrToArray(ids,",");
+			List<SysResource> resources= new ArrayList<SysResource>();
+			for(String resourceId : resourceIds){
+				SysResource r =new SysResource();
+				r.setResourceId(resourceId);
+				resources.add(r);
+			}
+			sysResourceService.delResources(resources);
+			result.put("result", "success");
+		} catch (Exception e) {
+			result.put("result", "failure");
+			logger.error(String.format("delete resource [%s] failure message:%s!", ids, e.getMessage()));
+		}
+		return result;
+	}	
 }

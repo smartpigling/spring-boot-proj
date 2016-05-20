@@ -10,11 +10,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Deprecated
 public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
 
 	private static final Logger logger =LoggerFactory.getLogger(ThymeleafLayoutInterceptor.class);
 	
-    private static final String DEFAULT_LAYOUT = "layouts/default";
+    private static final String DEFAULT_LAYOUT = "layouts/filterLayout";
     private static final String DEFAULT_VIEW_ATTRIBUTE_NAME = "view";
 
     private String defaultLayout = DEFAULT_LAYOUT;

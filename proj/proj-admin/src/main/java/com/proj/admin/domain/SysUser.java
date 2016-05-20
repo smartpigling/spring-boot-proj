@@ -20,17 +20,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
 
 
 @Entity
 @Table(name = "SYS_USER")
+@DynamicUpdate
 public class SysUser implements UserDetails,Serializable{
 	
 	/**
@@ -76,7 +76,7 @@ public class SysUser implements UserDetails,Serializable{
     @Column(unique = true, nullable = false)
 	private String username;
     
-    @Column(nullable = false)
+    @Column(nullable = false,updatable = false)
 	private String password;
     
     private String name;
@@ -90,17 +90,20 @@ public class SysUser implements UserDetails,Serializable{
 	
 	private boolean credentialsNonExpired;//证书是否有效
 	
+	@org.hibernate.annotations.CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
-    @org.hibernate.annotations.CreationTimestamp
 	private Date createdTime; //创建日期
 	
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
 	private Date lastLogin;//最后登录日期
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable = false)
 	private Date validTime;//有效日期
 
+	@Column(updatable = false)
 	private String loginIp;//登录IP
 	
 	private String orgId;//所属机构ID

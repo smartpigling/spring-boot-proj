@@ -114,8 +114,8 @@ create table SYS_RESOURCE  (
    RESOURCE_NAME        VARCHAR2(100),
    RESOURCE_DESC        VARCHAR2(200),
    RESOURCE_PATH        VARCHAR2(200),
-   PRIORITY             NUMBER,
-   ENABLE               BOOLEAN,
+   PRIORITY             NUMBER                       default 0,
+   ENABLE               BOOLEAN                      default true,
    MODULE_ID            VARCHAR2(100),
    constraint PK_SYS_RESOURCE primary key (RESOURCE_ID)
 );

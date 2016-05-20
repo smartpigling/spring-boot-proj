@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	  layout:decorator="layouts/defaultLayout">	  
+<head>
+  <title>Spring Boot CRUD Example</title>
+</head>
+<body>
+	<div layout:fragment="content">
 
-<div class="row" th:fragment="content">
-	<div class="col-xs-12">
-		<h2 class="page-header">
-			<i class="fa fa-gears"></i> 智网科技开发平台 
-			<small class="pull-right"><span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm')}"></span></small>
-		</h2>
+		默认首页！
 	</div>
-	<!-- /.col -->
-</div>
-
-
+</body>
 </html>

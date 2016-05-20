@@ -60,6 +60,7 @@ public class SysUserController {
 
 	@RequestMapping(value = "user", method = RequestMethod.POST)
 	public String saveUser(SysUser user){
+		logger.info(user.toString());
 		sysUserService.saveUser(user);
 		return "redirect:/user/"+user.getUserId();
 	}
@@ -75,8 +76,6 @@ public class SysUserController {
 	public String listUser(@PageableDefault(sort={"createdTime"},direction = Direction.ASC) Pageable pageable,
 			@RequestParam Map<String, Object> searchTerm,
 			Model model){
-		logger.info(searchTerm.toString());
-		
         PageWrapper<SysUser> page = new PageWrapper<SysUser>(
         		sysUserService.findSysUsers(searchTerm, pageable),"/users");
         
@@ -98,21 +97,21 @@ public class SysUserController {
 	}	
 	
 	@RequestMapping(value = "user/delete", method = RequestMethod.POST)
-	public @ResponseBody Map<String,Object> deleteUsers(@RequestParam String userIds){
+	public @ResponseBody Map<String,Object> deleteUsers(@RequestParam String ids){
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
-			String[] ids = StringUtils.convertStrToArray(userIds,",");
+			String[] userIds = StringUtils.convertStrToArray(ids,",");
 			List<SysUser> users= new ArrayList<SysUser>();
-			for(String id : ids){
+			for(String userId : userIds){
 				SysUser u =new SysUser();
-				u.setUserId(id);
+				u.setUserId(userId);
 				users.add(u);
 			}
 			sysUserService.delUsers(users);
 			result.put("result", "success");
 		} catch (Exception e) {
 			result.put("result", "failure");
-			logger.error(String.format("delete user [%s] failure message:%s!", userIds, e.getMessage()));
+			logger.error(String.format("delete user [%s] failure message:%s!", ids, e.getMessage()));
 		}
 		return result;
 	}	

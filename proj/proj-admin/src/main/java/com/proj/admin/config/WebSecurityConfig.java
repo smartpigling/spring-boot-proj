@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			"/plugins/**", "theme", "/images/**", "/h2-console/**"};
 
 	private static final String[] UNAUTHORIZED_RESOURCE_LIST = new String[] {  "/", "/test.html", "/unauthorized*",
-			"/error*", "exception*", "/users*", "/accessDenied" };
+			"/error*", "exception*", "/accessDenied" };
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {

@@ -33,8 +33,12 @@ public class AdminWebMvcConfig extends WebMvcConfigurerAdapter{
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new ThymeleafLayoutInterceptor());
-//		registry.addInterceptor(new AdminSecurityInterceptor()).addPathPatterns("/**");
+		/**
+		 * thymeleaf Layout ThymeleafLayoutInterceptor deprecated
+		 */
+		//registry.addInterceptor(new ThymeleafLayoutInterceptor());
+		
+		//registry.addInterceptor(new AdminSecurityInterceptor()).addPathPatterns("/**");
 	}
 	
 }

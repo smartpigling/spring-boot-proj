@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-	  layout:decorator="layouts/defaultLayout">
+	  layout:decorator="layouts/defaultLayout">	
 
 <div class="row" layout:fragment="content">
 	<div class="col-xs-12">
 		<div class="box">
 			<div class="box-header with-border">
-				<form class="form-inline search-form"  th:action="@{/users}">
+				<form class="form-inline search-form"  th:action="@{/resources}" >
 					<div class="">
 						<div class="form-group">
-							<label for="username">账号</label> 
-							<input type="text" class="form-control" name="username" th:value="${searchTerm['username']}" placeholder="账号" />
-						</div>
-						<div class="form-group">
-							<label for="name">姓名</label> 
-							<input type="text" class="form-control" name="name" th:value="${searchTerm['name']}" placeholder="姓名" />
+							<label for="resourceName">资源名称</label> 
+							<input type="text" class="form-control" name="resourceName" th:value="${searchTerm['resourceName']}" placeholder="资源名称" />
 						</div>
 						<div class="checkbox">
 							<label> 
@@ -35,10 +31,10 @@
 					</a>
 					<div class="btn-group">
 						<a class="btn btn-default btn-sm" title="删除" 
-							data-toggle="modal" data-target="#delete_modal" data-url="/user/delete">
+							data-toggle="modal" data-target="#delete_modal" data-url="/resource/delete">
 							<i class="fa fa-trash-o"></i>
 						</a>
-						<a th:href="${'/user/new'}" class="btn btn-default btn-sm" title="添加">
+						<a th:href="${'/resource/new'}" class="btn btn-default btn-sm" title="添加">
 							<i class="fa fa-plus"></i>
 						</a>
 					</div>
@@ -57,33 +53,28 @@
 					<thead>
 						<tr>
 							<th style="width: 10px"></th>
-							<th>账号</th>
-							<th>姓名</th>
+							<th>资源名称</th>
+							<th>资源描述</th>
+							<th>资源路径</th>
+							<th>优先级</th>
 							<th>是否可用</th>
-							<th>是否过期</th>
-							<th>是否锁定</th>
-							<th>证书有效</th>
 							<th style="width: 80px">操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="user : ${page.content}"
-							th:if="${not #lists.isEmpty(page.content)}">
-							<td><input type="checkbox" th:value="${user.userId}"/></td>
-							<td th:text="${user.username}">username</td>
-							<td th:text="${user.name}">name</td>
-							<td><i th:class="${user.enabled} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
-							</td>
-							<td><i th:class="${user.accountNonExpired} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
-							</td>
-							<td><i th:class="${user.accountNonLocked} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
-							</td>
-							<td><i th:class="${user.credentialsNonExpired} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
+						<tr th:each="resource : ${page.content}" th:if="${not #lists.isEmpty(page.content)}">
+							<td><input type="checkbox" th:value="${resource.resourceId}"/></td>
+							<td th:text="${resource.resourceName}">resourceName</td>
+							<td th:text="${resource.resourceDesc}">resourceDesc</td>
+							<td th:text="${resource.resourcePath}">resourcePath</td>
+							<td th:text="${resource.priority}">priority</td>
+							<td>
+								<i th:class="${resource.enabled} ? 'fa fa-check-circle':'fa fa-times-circle' "></i>
 							</td>
 							<td>
-								<a th:href="${'/user/'+user.userId}"><i class="fa fa-sign-in fa-fw"></i></a> 
-								<a th:href="${'/user/edit/' + user.userId}"><i class="fa fa-pencil-square-o fa-fw"></i></a> 
-								<a th:href="${'/user/delete/' + user.userId}"><i class="fa fa-trash-o fa-fw"></i></a>
+								<a th:href="${'/resource/' + resource.resourceId}"><i class="fa fa-sign-in fa-fw"></i></a> 
+								<a th:href="${'/resource/edit/' + resource.resourceId}"><i class="fa fa-pencil-square-o fa-fw"></i></a> 
+								<a th:href="${'/resource/delete/' + resource.resourceId}"><i class="fa fa-trash-o fa-fw"></i></a>
 							</td>
 						</tr>
 					</tbody>
@@ -94,8 +85,8 @@
 		</div>
 		<!-- /.box -->
 	</div>
+	<!--/*/ <th:block th:include="windows::modal"></th:block> /*/-->
 	
-	<div th:replace="windows :: modal"></div>
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
 		           

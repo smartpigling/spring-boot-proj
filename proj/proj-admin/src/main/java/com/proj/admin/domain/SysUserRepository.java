@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 /**
+ * <p>系统用户</p>
  * 
  * @author Tang Xiaochuan
- *
  */
 
 public interface SysUserRepository extends JpaRepository<SysUser, String>, JpaSpecificationExecutor<SysUser>{

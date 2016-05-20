@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">	
 <head>
-	<!--/*/ <th:block th:include="headerinc::head"></th:block> /*/-->
+	<!--  thymeleaf Layout Dialect default. -->
+	<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">CQINT</title>
+	<link th:replace="fragments/style :: style"/>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -188,22 +191,16 @@
 
     <!-- Main content -->
     <section class="content">
-		<div th:replace="${view} :: content"></div>
+		<div layout:fragment="content"></div>
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 0.12.11
-    </div>
-    <strong>Copyright &copy; 2016-2017 <a href="#">重庆智网科技</a>.</strong> All rights reserved.
-  </footer>
+	<div th:replace="fragments/footer :: foot"></div>
 
 </div>
 <!-- ./wrapper -->
-
-<!--/*/ <th:block th:include="footerinc::foot"></th:block> /*/-->
+<div th:replace="fragments/js :: js"></div>
 
 </body>
 </html>

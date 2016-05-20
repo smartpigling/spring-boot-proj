@@ -1,7 +1,5 @@
 package com.proj.admin.config;
 
-
-
 import java.util.Date;
 import java.util.Map;
 
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.admin.util.AdminUtils;
-
-
 
 
 @Controller
