@@ -29,14 +29,10 @@
 	
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
-		           
-		           
-			/**
-			* 全选
-			**/
-						
+	    $(document).ready(function() {
+
+			//全选
 		    $(".checkbox-toggle").click(function () {
-		    	
 		        var clicks = $(this).data('clicks');
 		        if (clicks) {
 		          //Uncheck all checkboxes
@@ -48,25 +44,20 @@
 		          $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
 		        }
 		        $(this).data("clicks", !clicks);
-		      });			           
-		           
-		           
-			/**
-			* 模态批量删除
-			**/
-			
-			$("#delete_ok").click(function () {
+		    });
 				
+			//模态批量删除
+			$("#delete_ok").click(function () {
 				var _url = $("a[data-target='#delete_modal']").attr("data-url");
 				var checked_data =[];
 				$(".table input[type='checkbox']:checked").each(function(){
 					checked_data.push($(this).val());
 				});
-				
+
 				if(checked_data && checked_data.length > 0){
 					$.post( _url,
 						{
-							'_csrf': /*[[${_csrf}]]*/,
+							'_csrf': $("meta[name='_csrf']").attr("content"),
 							'ids':checked_data.toString()
 						},
 						function(data,status){
@@ -77,37 +68,14 @@
 					);					
 				}
 				$('#delete_ok').attr('data-dismiss', 'modal');
-				
-			});	
-			
-			/**
-			*  删除
-			* _url:/xxx/delete
-			* _data:{ids:[]}
-			*/
-			function remove(_url, _data){ 
-				var r = confirm("您确定执行此操作？"); 
-				if (r == true) { 
-					$.ajax({ 
-						type : "POST",
-						headers:{
-							'X-CSRF-TOKEN':/*[[${_csrf}]]*/
-						},						
-						url :  _url, 
-						data : _data, 
-						success : function(data) { 
-							if(data && data['result']=='success'){
-								window.location.reload();
-							}
-						}, 
-						error : function(e) { 
-							alert('Failed!: ' + e); 
-						} 
-					}); 
-				}
-			} 		
+			});		    	
+	        
+	    });
+	 
+
+		           
 		/*]]>*/
-	</script>	
+	</script>
 
 
 </div>

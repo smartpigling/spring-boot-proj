@@ -44,7 +44,7 @@
 					</a>
 
 					<div class="pull-right">
-						<!--/*/ <th:block th:include="pagination_tr::page"></th:block> /*/-->
+						<!--/*/ <th:block th:replace="fragments/pagination_tr :: page"></th:block> /*/-->
 					</div>
 				</div>
 
@@ -85,17 +85,7 @@
 		</div>
 		<!-- /.box -->
 	</div>
-	<!--/*/ <th:block th:include="windows::modal"></th:block> /*/-->
-	
-	<script type="text/javascript" th:inline="javascript">
-		/*<![CDATA[*/
-		           
-	           
-		 
-
-		           
-		/*]]>*/
-	</script>	
+	<!--/*/ <th:block th:replace="fragments/windows :: modal"></th:block> /*/-->
 			           
 </div>
 </html>

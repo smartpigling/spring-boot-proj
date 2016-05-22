@@ -59,7 +59,7 @@ public class SysResource implements Serializable {
 	
 	private Integer priority;// 优先级
 	
-	private Boolean enable;// 是否可用
+	private Boolean enabled;// 是否可用
 	
 	private String moduleId;// 模块
 
@@ -111,12 +111,12 @@ public class SysResource implements Serializable {
 		this.priority = priority;
 	}
 
-	public Boolean getEnable() {
-		return enable;
+	public Boolean getEnabled() {
+		return enabled;
 	}
 
-	public void setEnable(Boolean enable) {
-		this.enable = enable;
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public String getModuleId() {

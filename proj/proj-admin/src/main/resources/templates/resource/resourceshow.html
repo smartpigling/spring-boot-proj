@@ -10,29 +10,21 @@
 			<div class="box-header with-border">
 				<i class="fa fa-file-o"></i>
 
-				<h3 class="box-title">用户详情</h3>
+				<h3 class="box-title">资源详情</h3>
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body">
 				<dl class="dl-horizontal col-xs-6">
-					<dt>账号</dt>
-					<dd><span th:text="${user.username}"></span></dd>
-					<dt>姓名</dt>
-					<dd><span th:text="${user.name}"></span></dd>
-					<dt>创建日期</dt>
-					<dd><span th:text="${user.createdTime}"></span></dd>	
-					<dt>最后登录日期</dt>
-					<dd><span th:text="${user.lastLogin}"></span></dd>										
-				</dl>
-				<dl class="dl-horizontal col-xs-6">
+					<dt>资源名称</dt>
+					<dd><span th:text="${resource.resourceName}"></span></dd>
+					<dt>资源描述</dt>
+					<dd><span th:text="${resource.resourceDesc}"></span></dd>
+					<dt>资源路径</dt>
+					<dd><span th:text="${resource.resourcePath}"></span></dd>	
+					<dt>优先级</dt>
+					<dd><span th:text="${resource.priority}"></span></dd>	
 					<dt>是否可用</dt>
-					<dd><i th:class="${user.enabled} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>
-					<dt>是否过期</dt>
-					<dd><i th:class="${user.accountNonExpired} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>
-					<dt>是否锁定</dt>
-					<dd><i th:class="${user.accountNonLocked} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>	
-					<dt>证书有效</dt>
-					<dd><i th:class="${user.credentialsNonExpired} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>										
+					<dd><i th:class="${resource.enabled} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>														
 				</dl>
 			</div>
 			<!-- /.box-body -->
