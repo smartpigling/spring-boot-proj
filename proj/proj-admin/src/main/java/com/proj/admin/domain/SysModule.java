@@ -1,11 +1,16 @@
 package com.proj.admin.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -23,16 +28,28 @@ public class SysModule implements Serializable {
 	private String moduleId;// 模块ID
 	
 	private String moduleType;// 模块类型
+	
 	private String moduleName;// 模块名称
+	
 	private String moduleDesc;// 模块描述
+	
 	private String moduleUrl;//
-	private String parent;// 父级
-	private String mLevel;// 菜单级别
+	
+	private String parentId;// 父级
+	
+	private Integer Level;// 菜单级别
+	
 	private Boolean leaf;// 是否叶子
-	private String application;// 应用名
-	private String controller;// 控制器名称
-	private Boolean enable;// 是否可用
+	
+	private Boolean enabled;// 是否可用
+	
 	private Integer priority;// 优先级
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+	@JoinColumn(name="MODULE_ID")
+	private Collection<SysResource> sysResources;
+	
+	
 	public String getModuleId() {
 		return moduleId;
 	}
@@ -63,18 +80,17 @@ public class SysModule implements Serializable {
 	public void setModuleUrl(String moduleUrl) {
 		this.moduleUrl = moduleUrl;
 	}
-	public String getParent() {
-		return parent;
+	public String getParentId() {
+		return parentId;
 	}
-	public void setParent(String parent) {
-		this.parent = parent;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
-
-	public String getmLevel() {
-		return mLevel;
+	public Integer getLevel() {
+		return Level;
 	}
-	public void setmLevel(String mLevel) {
-		this.mLevel = mLevel;
+	public void setLevel(Integer level) {
+		Level = level;
 	}
 	public Boolean getLeaf() {
 		return leaf;
@@ -82,23 +98,11 @@ public class SysModule implements Serializable {
 	public void setLeaf(Boolean leaf) {
 		this.leaf = leaf;
 	}
-	public String getApplication() {
-		return application;
+	public Boolean getEnabled() {
+		return enabled;
 	}
-	public void setApplication(String application) {
-		this.application = application;
-	}
-	public String getController() {
-		return controller;
-	}
-	public void setController(String controller) {
-		this.controller = controller;
-	}
-	public Boolean getEnable() {
-		return enable;
-	}
-	public void setEnable(Boolean enable) {
-		this.enable = enable;
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 	public Integer getPriority() {
 		return priority;
@@ -106,5 +110,19 @@ public class SysModule implements Serializable {
 	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
+	public Collection<SysResource> getSysResources() {
+		return sysResources;
+	}
+	public void setSysResources(Collection<SysResource> sysResources) {
+		this.sysResources = sysResources;
+	}
+	
+	@Override
+	public String toString() {
+		return "SysModule [moduleId=" + moduleId + ", moduleType=" + moduleType + ", moduleName=" + moduleName
+				+ ", moduleDesc=" + moduleDesc + ", moduleUrl=" + moduleUrl + ", parentId=" + parentId + ", Level="
+				+ Level + ", leaf=" + leaf + ", enabled=" + enabled + ", priority=" + priority + "]";
+	}
+	
 
 }

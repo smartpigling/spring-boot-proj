@@ -11,4 +11,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface SysResourceRepository extends JpaRepository<SysResource, String>, JpaSpecificationExecutor<SysResource>{
 
+	public SysResource getByResourceName(String resourceName);
 }

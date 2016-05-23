@@ -7,10 +7,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -112,6 +117,16 @@ public class SysUser implements UserDetails,Serializable{
 	
 	@Transient
 	private Collection<GrantedAuthority>  authorities;
+	
+	
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})
+    @JoinTable(
+        name="SYS_USER_ROLE",
+        joinColumns=@JoinColumn(name="USER_ID", referencedColumnName="USER_ID"),
+        inverseJoinColumns=@JoinColumn(name="ROLE_ID", referencedColumnName="ROLE_ID"))	
+	private Collection<SysRole> sysRoles;
+	
+	
 
 	public String getUserId() {
 		return userId;
@@ -231,6 +246,14 @@ public class SysUser implements UserDetails,Serializable{
 
 	public void setAuthorities(Collection<GrantedAuthority> authorities) {
 		this.authorities = authorities;
+	}
+	
+	public Collection<SysRole> getSysRoles() {
+		return sysRoles;
+	}
+
+	public void setSysRoles(Collection<SysRole> sysRoles) {
+		this.sysRoles = sysRoles;
 	}
 
 	@Override
