@@ -35,8 +35,6 @@ public class SysModule implements Serializable {
 	
 	private String moduleUrl;//
 	
-	private String parentId;// 父级
-	
 	private Integer Level;// 菜单级别
 	
 	private Boolean leaf;// 是否叶子
@@ -48,6 +46,11 @@ public class SysModule implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
 	@JoinColumn(name="MODULE_ID")
 	private Collection<SysResource> sysResources;
+	
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+	@JoinColumn(name="PARENT_ID")
+	private Collection<SysModule> sysModules;
 	
 	
 	public String getModuleId() {
@@ -80,12 +83,6 @@ public class SysModule implements Serializable {
 	public void setModuleUrl(String moduleUrl) {
 		this.moduleUrl = moduleUrl;
 	}
-	public String getParentId() {
-		return parentId;
-	}
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
 	public Integer getLevel() {
 		return Level;
 	}
@@ -116,13 +113,20 @@ public class SysModule implements Serializable {
 	public void setSysResources(Collection<SysResource> sysResources) {
 		this.sysResources = sysResources;
 	}
-	
+	public Collection<SysModule> getSysModules() {
+		return sysModules;
+	}
+	public void setSysModules(Collection<SysModule> sysModules) {
+		this.sysModules = sysModules;
+	}
 	@Override
 	public String toString() {
 		return "SysModule [moduleId=" + moduleId + ", moduleType=" + moduleType + ", moduleName=" + moduleName
-				+ ", moduleDesc=" + moduleDesc + ", moduleUrl=" + moduleUrl + ", parentId=" + parentId + ", Level="
-				+ Level + ", leaf=" + leaf + ", enabled=" + enabled + ", priority=" + priority + "]";
+				+ ", moduleDesc=" + moduleDesc + ", moduleUrl=" + moduleUrl + ", Level=" + Level + ", leaf=" + leaf
+				+ ", enabled=" + enabled + ", priority=" + priority + ", sysModules=" + sysModules + "]";
 	}
+	
+
 	
 
 }

@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -65,7 +69,7 @@ public class SysResource implements Serializable {
 	
 	private Boolean enabled;// 是否可用
 	
-	private String parentId;//父类
+	//private String parentId;//父类
 
 	private Integer sysSpec;;//保留1:可见,0:不可见
 	
@@ -79,6 +83,12 @@ public class SysResource implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="MODULE_ID")
 	private SysModule module;
+	
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+	@JoinColumn(name="PARENT_ID")
+	private Collection<SysResource> sysResource;
+	
 	
 
 	public String getResourceId() {
@@ -137,13 +147,13 @@ public class SysResource implements Serializable {
 		this.enabled = enabled;
 	}
 
-	public String getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
+//	public String getParentId() {
+//		return parentId;
+//	}
+//
+//	public void setParentId(String parentId) {
+//		this.parentId = parentId;
+//	}
 
 
 	public Integer getSysSpec() {
@@ -171,12 +181,25 @@ public class SysResource implements Serializable {
 		this.module = module;
 	}
 
+	
+	
+	
+	
+	public Collection<SysResource> getSysResource() {
+		return sysResource;
+	}
+
+	public void setSysResource(Collection<SysResource> sysResource) {
+		this.sysResource = sysResource;
+	}
+
 	@Override
 	public String toString() {
 		return "SysResource [resourceId=" + resourceId + ", resourceType=" + resourceType + ", resourceName="
 				+ resourceName + ", resourceDesc=" + resourceDesc + ", resourcePath=" + resourcePath + ", priority="
-				+ priority + ", enabled=" + enabled + ", parentId=" + parentId + ", sysSpec=" + sysSpec + "]";
+				+ priority + ", enabled=" + enabled + ", sysSpec=" + sysSpec + ", sysResource=" + sysResource + "]";
 	}
+
 
 
 }

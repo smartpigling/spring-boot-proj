@@ -1,12 +1,16 @@
 package com.proj.admin.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.proj.admin.AdminRunner;
 
+
+@FixMethodOrder(MethodSorters.DEFAULT)
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AdminRunner.class)
 @WebAppConfiguration
@@ -26,29 +32,39 @@ public class ResourceTest {
 	@Autowired
 	SysResourceRepository sysResourceRepository;
 	
+	SysResource sres;
+	
 	SysResource sres1;
 	
 	SysResource sres2;
 	
     @Before
+    @Ignore
     public void setUp() {
     	sres1 = new SysResource();
-    	sres1.setResourceName("res1");
+    	sres1.setResourceName("res11");
     	sres1.setEnabled(true); 
     	
     	sres2 = new SysResource();
-    	sres2.setResourceName("res2");
+    	sres2.setResourceName("res22");
     	sres2.setEnabled(true);    	
  
     }
     
     @Test
+    @Ignore
+    public void canGetResource(){
+    	sres = sysResourceRepository.getByResourceName("res1");
+    	logger.info("*****"+sres.toString());
+    }
+    
+    //@Test
     public void canSaveResource(){
+    	sres = sysResourceRepository.getByResourceName("res1");
     	
-    	Set<SysResource> reSet =new HashSet<SysResource>();
-    	reSet.add(sres1);
-    	reSet.add(sres2);
-    	sysResourceRepository.save(reSet);
+    	sres1.setSysResource(new HashSet(){{ add(sres2); }});
+    	sres.setSysResource(new HashSet(){{ add(sres1); }});
+    	sysResourceRepository.save(sres);
     }
     
     //@Test
@@ -61,9 +77,9 @@ public class ResourceTest {
     	logger.info("*******************************************");
     } 
     
-    //@Test
+    @Test
     public void canRemove(){
-    	SysResource res =sysResourceRepository.getByResourceName("res2");
+    	SysResource res =sysResourceRepository.getByResourceName("res11");
     	sysResourceRepository.delete(res);
     }
     
