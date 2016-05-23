@@ -1,10 +1,7 @@
 package com.proj.admin.domain;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -17,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
 import com.proj.admin.AdminRunner;
 
 
@@ -25,9 +21,9 @@ import com.proj.admin.AdminRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AdminRunner.class)
 @WebAppConfiguration
-public class ResourceTest {
+public class ResourceDbTest {
 
-	private static Logger logger = LoggerFactory.getLogger(ResourceTest.class);
+	private static Logger logger = LoggerFactory.getLogger(ResourceDbTest.class);
 	
 	@Autowired
 	SysResourceRepository sysResourceRepository;

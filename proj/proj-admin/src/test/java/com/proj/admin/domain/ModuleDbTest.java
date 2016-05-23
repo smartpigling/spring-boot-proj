@@ -17,8 +17,8 @@ import com.proj.admin.AdminRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AdminRunner.class)
 @WebAppConfiguration
-public class ModuleTest {
-	private static Logger logger = LoggerFactory.getLogger(ModuleTest.class);
+public class ModuleDbTest {
+	private static Logger logger = LoggerFactory.getLogger(ModuleDbTest.class);
 	
 	@Autowired
 	SysModuleRepository sysModuleRepository;

@@ -20,9 +20,9 @@ import com.proj.admin.AdminRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AdminRunner.class)
 @WebAppConfiguration
-public class RoleTest {
+public class RoleDbTest {
 
-	private static Logger logger = LoggerFactory.getLogger(RoleTest.class);
+	private static Logger logger = LoggerFactory.getLogger(RoleDbTest.class);
 	
 	
 	@Autowired

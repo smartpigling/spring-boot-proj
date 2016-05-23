@@ -19,9 +19,9 @@ import com.proj.admin.AdminRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AdminRunner.class)
 @WebAppConfiguration
-public class AuthorityTest {
+public class AuthorityDbTest {
 	
-	private static Logger logger = LoggerFactory.getLogger(AuthorityTest.class);
+	private static Logger logger = LoggerFactory.getLogger(AuthorityDbTest.class);
 	
 	@Autowired
 	SysAuthorityRepository sysAuthorityRepository;

@@ -36,20 +36,12 @@ import com.proj.admin.AdminRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AdminRunner.class)
 @WebAppConfiguration
-public class UserTest {
+public class UserDbTest {
 	
-	private static Logger logger = LoggerFactory.getLogger(UserTest.class);
+	private static Logger logger = LoggerFactory.getLogger(UserDbTest.class);
 	
 	
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));	
-    
-	
-	@Autowired
-	private WebApplicationContext wac;
-	
-	private MockMvc mockMvc;
+
 	
     @Autowired 
     SysUserRepository sysUserRepository;
@@ -65,7 +57,6 @@ public class UserTest {
 
     //@Before
     public void setUp() {
-    	this.mockMvc = webAppContextSetup(this.wac).build();
     	
     	for (int i = 0; i < 100; i++) {
     		tom = new SysUser();
@@ -78,21 +69,10 @@ public class UserTest {
     		tom.setCredentialsNonExpired(true);
     		sysUserRepository.save(tom);
 		}
-
-        
-        
-
     }
 
 
-    public void canFetchUser() throws Exception {
-        String userId = tom.getUserId();
 
-        this.mockMvc.perform(get("user/{userId}",userId))
-        	.andExpect(status().isOk())
-        	.andExpect(content().contentType(contentType))
-        	.andExpect(jsonPath("$.name").value("jarry"));
-    }
 
     
     public void canFetchAll() {

@@ -1,4 +1,4 @@
-package com.proj.admin.domain;
+package com.proj.admin.service;
 
 import java.util.HashMap;
 import java.util.Map;
