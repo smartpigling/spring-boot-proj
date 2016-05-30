@@ -101,8 +101,6 @@ create table SYS_MODULE
    constraint PK_SYS_MODULE primary key (MODULE_ID)
 );
 
-comment on column SYS_MODULE.M_LEVEL is
-'1';
 
 /*==============================================================*/
 /* Table: SYS_RESOURCE                                          */

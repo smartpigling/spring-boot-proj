@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-	  layout:decorator="layouts/defaultLayout">	
+	  layout:decorator="layouts/defaultLayout">
 
 <div class="row" layout:fragment="content">
 	<div class="col-xs-12">
@@ -62,6 +62,9 @@
 						</tr>
 					</thead>
 					<tbody>
+			        	<tr th:if="${#lists.isEmpty(page.content)}">
+            				<td colspan="7">没有相关记录</td>
+        				</tr>	
 						<tr th:each="resource : ${page.content}" th:if="${not #lists.isEmpty(page.content)}">
 							<td><input type="checkbox" th:value="${resource.resourceId}"/></td>
 							<td th:text="${resource.resourceName}">resourceName</td>
@@ -86,6 +89,5 @@
 		<!-- /.box -->
 	</div>
 	<!--/*/ <th:block th:replace="fragments/windows :: modal"></th:block> /*/-->
-			           
 </div>
 </html>

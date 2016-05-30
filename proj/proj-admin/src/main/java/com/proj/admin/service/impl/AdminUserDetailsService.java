@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,9 +28,9 @@ public class AdminUserDetailsService implements UserDetailsService{
 	@Autowired
 	private SysUserService sysUserService;
 	
-	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		//TODO 加入缓存
 		SysUser user = sysUserService.getUserByUsername(username);
 		
 		if (user == null){
@@ -42,7 +43,6 @@ public class AdminUserDetailsService implements UserDetailsService{
 		
 		Collection<GrantedAuthority> auths = sysUserService.loadUserAuthorities(username);
 		user.setAuthorities(auths);
-		
 		return user;
 	}
 

@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -26,6 +27,8 @@ import javax.persistence.criteria.Root;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "SYS_RESOURCE")
@@ -69,11 +72,10 @@ public class SysResource implements Serializable {
 	
 	private Boolean enabled;// 是否可用
 	
-	//private String parentId;//父类
-
 	private Integer sysSpec;;//保留1:可见,0:不可见
 	
-	@ManyToMany
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="SYS_AUTHORITY_RESOURCE",
             joinColumns=@JoinColumn(name="RESOURCE_ID", referencedColumnName="RESOURCE_ID"),
@@ -87,7 +89,7 @@ public class SysResource implements Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
 	@JoinColumn(name="PARENT_ID")
-	private Collection<SysResource> sysResource;
+	private Collection<SysResource> sysResources;
 	
 	
 
@@ -147,14 +149,6 @@ public class SysResource implements Serializable {
 		this.enabled = enabled;
 	}
 
-//	public String getParentId() {
-//		return parentId;
-//	}
-//
-//	public void setParentId(String parentId) {
-//		this.parentId = parentId;
-//	}
-
 
 	public Integer getSysSpec() {
 		return sysSpec;
@@ -182,23 +176,22 @@ public class SysResource implements Serializable {
 	}
 
 	
-	
-	
-	
-	public Collection<SysResource> getSysResource() {
-		return sysResource;
+	public Collection<SysResource> getSysResources() {
+		return sysResources;
 	}
 
-	public void setSysResource(Collection<SysResource> sysResource) {
-		this.sysResource = sysResource;
+	public void setSysResources(Collection<SysResource> sysResources) {
+		this.sysResources = sysResources;
 	}
 
 	@Override
 	public String toString() {
 		return "SysResource [resourceId=" + resourceId + ", resourceType=" + resourceType + ", resourceName="
 				+ resourceName + ", resourceDesc=" + resourceDesc + ", resourcePath=" + resourcePath + ", priority="
-				+ priority + ", enabled=" + enabled + ", sysSpec=" + sysSpec + ", sysResource=" + sysResource + "]";
+				+ priority + ", enabled=" + enabled + ", sysSpec=" + sysSpec + ", module=" + module + ", sysResources="
+				+ sysResources + "]";
 	}
+
 
 
 

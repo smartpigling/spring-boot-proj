@@ -10,7 +10,7 @@ import com.proj.admin.domain.SysResource;
 
 public interface SysResourceService {
 	
-	public Page<SysResource> findSysResources(Map<String, Object> criteria, Pageable pageable);
+	public Page<SysResource> findResources(Map<String, Object> criteria, Pageable pageable);
 
 	public void saveResource(SysResource resource);
 	
@@ -19,4 +19,6 @@ public interface SysResourceService {
 	public void delResourceByResourceId(String resourceId);
 	
 	public void delResources(List<SysResource> resources);
+	
+	public List<SysResource> findResourceTree();
 }

@@ -39,6 +39,25 @@ public class GeneralAccessConfig {
 		return mav;
 	}
 	
+	@RequestMapping("/router")
+	public String accessDeniedRouter(@RequestParam("q") String resource) {
+		logger.debug("In accessDeniedRouter resource = " + resource);
+
+		return "redirect:/" + resource;
+	}
+
+	@RequestMapping(value = "/oups", method = RequestMethod.GET)
+	public String triggerException() {
+		throw new RuntimeException(
+				"Expected: controller used to showcase what happens when an exception is thrown");
+	}	
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	public String handleAccessDeniedException(HttpServletRequest req, Exception e) {
+		logger.info(String.format("IP[%s]用户非法访问！", AdminUtils.getIpAddress(req)));
+		return "redirect:/unauthorized";
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public ModelAndView handleException(HttpServletRequest req, Exception e) {
 		logger.warn("In handleException", e);
@@ -51,29 +70,4 @@ public class GeneralAccessConfig {
 		return mav;
 	}	
 	
-	
-	
-	@ExceptionHandler(AccessDeniedException.class)
-	public String handleAccessDeniedException(HttpServletRequest req, Exception e) {
-		logger.info(String.format("IP[%s]用户非法访问！", AdminUtils.getIpAddress(req)));
-		return "redirect:/unauthorized";
-	}
-	
-
-	@RequestMapping("/router")
-	public String accessDeniedRouter(@RequestParam("q") String resource) {
-		logger.debug("In accessDeniedRouter resource = " + resource);
-
-		return "redirect:/" + resource;
-	}
-
-
-
-	@RequestMapping(value = "/oups", method = RequestMethod.GET)
-	public String triggerException() {
-		throw new RuntimeException(
-				"Expected: controller used to showcase what happens when an exception is thrown");
-	}
-	
-
 }

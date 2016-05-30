@@ -35,7 +35,6 @@ import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name = "SYS_USER")
-@DynamicUpdate
 public class SysUser implements UserDetails,Serializable{
 	
 	/**
@@ -75,10 +74,10 @@ public class SysUser implements UserDetails,Serializable{
 	@Id
     @GeneratedValue(generator = "generator")  
     @GenericGenerator(name = "generator", strategy = "uuid.hex")  
-    @Column(name = "USER_ID", unique = true, nullable = false, length = 36)  	
+    @Column(name = "USER_ID", unique = true, nullable = false,updatable = false , length = 36)  	
 	private String userId;
     
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
 	private String username;
     
     @Column(nullable = false,updatable = false)

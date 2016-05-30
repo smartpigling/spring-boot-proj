@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,6 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.proj.admin.AdminRunner;
+import com.proj.admin.pojo.ResAuthMapping;
+import com.proj.admin.service.SysAuthorityService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AdminRunner.class)
@@ -27,11 +28,14 @@ public class AuthorityDbTest {
 	SysAuthorityRepository sysAuthorityRepository;
 	
 	@Autowired
+	SysAuthorityService sysAuthorityService;
+	
+	@Autowired
 	SysResourceRepository sysResourceRepository;
 	
 	SysAuthority auth;
 	
-    @Before
+    //@Before
     public void setUp() {
     	auth = new SysAuthority();
     	auth.setAuthorityName("auth01");
@@ -43,7 +47,7 @@ public class AuthorityDbTest {
     	
     }
     
-    @Test
+    //@Test
     public void canSaveAuthority(){
     	sysAuthorityRepository.save(auth);
     }
@@ -81,6 +85,11 @@ public class AuthorityDbTest {
     public void canRemove(){
     	SysAuthority auth =sysAuthorityRepository.getByAuthorityName("auth01");
     	sysAuthorityRepository.delete(auth);
-    }    
+    }  
     
+    @Test
+    public void canFetchRAMapping(){
+    	List<ResAuthMapping> list = sysAuthorityService.findResourceAuthorityMapping();
+    	logger.info("%%%%%%:"+list.toString());
+    }
 }

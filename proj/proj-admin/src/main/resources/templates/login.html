@@ -1,34 +1,73 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Login</title>
-<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
-	href="../../css/bootstrap.min.css" />
-</head>
-<body onload="document.f.username.focus();">
-	<div class="container">
-		<div class="navbar">
-			<div class="navbar-inner">
-				<a class="brand" href="http://www.thymeleaf.org"> Thymeleaf -
-					Plain </a>
-				<ul class="nav">
-					<li><a th:href="@{/}" href="home.html"> Home </a></li>
-				</ul>
-			</div>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">	
+<!--/*/ <th:block th:replace="headerinc :: head"></th:block> /*/-->
+<body class="hold-transition login-page">
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="#"><b>智网科技</b>开发平台</a>
 		</div>
-		<div class="content">
-			<p th:if="${param.logout}" class="alert">You have been logged out</p>
-			<p th:if="${param.error}" class="alert alert-error">There was an error, please try again</p>
-			<h2>Login with Username and Password</h2>
+		<!-- /.login-logo -->
+		<div class="login-box-body">
+			<p class="login-box-msg">登录</p>
+			<p th:if="${param.logout}" class="alert">您已退出系统</p>
+			<p th:if="${param.error}" class="alert alert-error">登录账号或密码错误,请再次输入</p>
 			<form name="form" th:action="@{/login}" action="/login" method="POST">
-				<fieldset>
-					<input type="text" name="username" value="" placeholder="Username" />
-					<input type="password" name="password" placeholder="Password" />
-				</fieldset>
-				<input type="submit" id="login" value="Login"
-					class="btn btn-primary" />
+				<div class="form-group has-feedback">
+					<input type="text" name="username" class="form-control"
+						placeholder="账号" /> <span
+						class="glyphicon glyphicon-user form-control-feedback"></span>
+				</div>
+				<div class="form-group has-feedback">
+					<input type="password" name="password" class="form-control"
+						placeholder="密码" /> <span
+						class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>
+				<div class="form-group has-feedback">
+					<input type="text" name="captcha" class="form-control"
+						placeholder="验证码" /> <span
+						class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>				
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="checkbox icheck">
+							<label> <input type="checkbox" name="remember-me" />
+								下次自动登录
+							</label>
+						</div>
+					</div>
+					<!-- /.col -->
+					<div class="col-xs-4">
+						<button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+					</div>
+					<!-- /.col -->
+				</div>
 			</form>
+
+			<div class="social-auth-links text-center">
+				<p>- 忘记密码？ -</p>
+				<a href="#" class="btn btn-block btn-social btn-flat"><i
+					class="fa fa-phone"></i>请联系客服电话：10086</a>
+			</div>
+			<!-- /.social-auth-links -->
+
+
 		</div>
+		<!-- /.login-box-body -->
 	</div>
+	<!-- /.login-box -->
+
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		$(function() {
+			$("input[type='checkbox']").iCheck({
+				checkboxClass : 'icheckbox_square-blue',
+				radioClass : 'iradio_square-blue',
+				increaseArea : '20%' // optional
+			});
+		});
+		/*]]>*/
+	</script>
 </body>
 </html>

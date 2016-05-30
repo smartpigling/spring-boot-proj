@@ -58,8 +58,14 @@ public class SysResourceServiceImpl implements SysResourceService {
 
 
 	@Override
-	public Page<SysResource> findSysResources(Map<String, Object> criteria, Pageable pageable) {
-		return sysResourceRepository.findAll(null, pageable);
+	public Page<SysResource> findResources(Map<String, Object> criteria, Pageable pageable) {
+		return sysResourceRepository.findAll(SysResource.builderSearchWhereClause(criteria), pageable);
+	}
+
+
+	@Override
+	public List<SysResource> findResourceTree() {
+		return sysResourceRepository.findByParentIdIsNull();
 	}
 
 }

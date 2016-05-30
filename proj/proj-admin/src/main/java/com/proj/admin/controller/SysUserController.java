@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +61,7 @@ public class SysUserController {
 
 	@RequestMapping(value = "user", method = RequestMethod.POST)
 	public String saveUser(SysUser user){
-		logger.info(user.toString());
+		
 		sysUserService.saveUser(user);
 		return "redirect:/user/"+user.getUserId();
 	}
@@ -71,8 +72,10 @@ public class SysUserController {
 		return "user/usershow";
 	}
 	
-	
+
+    
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
+	//@PreAuthorize("hasAuthority('XX_VIEW')")
 	public String listUser(@PageableDefault(sort={"createdTime"},direction = Direction.ASC) Pageable pageable,
 			@RequestParam Map<String, Object> searchTerm,
 			Model model){

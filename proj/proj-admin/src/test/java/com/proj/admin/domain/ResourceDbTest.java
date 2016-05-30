@@ -2,6 +2,7 @@ package com.proj.admin.domain;
 
 import java.util.HashSet;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -14,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.proj.admin.AdminRunner;
 
 
@@ -28,21 +32,21 @@ public class ResourceDbTest {
 	@Autowired
 	SysResourceRepository sysResourceRepository;
 	
-	SysResource sres;
 	
 	SysResource sres1;
 	
 	SysResource sres2;
 	
     @Before
-    @Ignore
     public void setUp() {
     	sres1 = new SysResource();
-    	sres1.setResourceName("res11");
+    	sres1.setResourceName("res3");
+    	sres1.setResourceType("URL");
     	sres1.setEnabled(true); 
     	
     	sres2 = new SysResource();
-    	sres2.setResourceName("res22");
+    	sres2.setResourceName("res4");
+    	sres2.setResourceType("URL");
     	sres2.setEnabled(true);    	
  
     }
@@ -50,16 +54,16 @@ public class ResourceDbTest {
     @Test
     @Ignore
     public void canGetResource(){
-    	sres = sysResourceRepository.getByResourceName("res1");
-    	logger.info("*****"+sres.toString());
+    	sres1 = sysResourceRepository.getByResourceName("res1");
+    	logger.info("*****"+sres1.toString());
     }
     
-    //@Test
+    @Test
     public void canSaveResource(){
-    	sres = sysResourceRepository.getByResourceName("res1");
+    	SysResource sres = sysResourceRepository.getByResourceName("res2");
     	
-    	sres1.setSysResource(new HashSet(){{ add(sres2); }});
-    	sres.setSysResource(new HashSet(){{ add(sres1); }});
+    	sres1.setSysResources(new HashSet(){{ add(sres2); }});
+    	sres.setSysResources(new HashSet(){{ add(sres1); }});
     	sysResourceRepository.save(sres);
     }
     
@@ -73,10 +77,27 @@ public class ResourceDbTest {
     	logger.info("*******************************************");
     } 
     
-    @Test
+    //@Test
     public void canRemove(){
     	SysResource res =sysResourceRepository.getByResourceName("res11");
     	sysResourceRepository.delete(res);
     }
+    
+    //@Test
+    public void canFetchParentIsNulll() {
+    	List<SysResource> list =sysResourceRepository.findByParentIdIsNull();
+    	logger.info("*****************SysResource***************");
+    	ObjectMapper mapper = new ObjectMapper(); 
+    	try {
+			String json = mapper.writeValueAsString(list);
+			logger.info(json);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+//    	for(SysResource r : list){
+//    		logger.info(r.toString());
+//    	}
+    	logger.info("*******************************************");
+    }     
     
 }

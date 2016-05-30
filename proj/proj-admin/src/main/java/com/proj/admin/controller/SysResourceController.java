@@ -8,13 +8,13 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.proj.admin.domain.SysResource;
 import com.proj.admin.service.SysResourceService;
+import com.proj.admin.util.AjaxUtils;
 import com.proj.admin.util.PageWrapper;
 import com.proj.admin.util.StringUtils;
 
@@ -36,6 +37,7 @@ import com.proj.admin.util.StringUtils;
 public class SysResourceController {
 
 	private static final Logger logger =LoggerFactory.getLogger(SysResourceController.class);
+	
     
 	@Autowired
 	private SysResourceService sysResourceService;
@@ -62,10 +64,10 @@ public class SysResourceController {
 	
 	@RequestMapping(value = "/resources", method = RequestMethod.GET)
 	public String listResource(@PageableDefault(sort={"priority"},direction = Direction.DESC) Pageable pageable,
-			@RequestParam Map<String, Object> searchTerm,
-			Model model){
+			@RequestParam Map<String, Object> searchTerm,Model model){
+		
         PageWrapper<SysResource> page = new PageWrapper<SysResource>(
-        		sysResourceService.findSysResources(searchTerm, pageable),"/resources");
+        		sysResourceService.findResources(searchTerm, pageable),"/resources");
         
 		model.addAttribute("page", page);
 		model.addAttribute("searchTerm", searchTerm);
@@ -73,8 +75,13 @@ public class SysResourceController {
 	}
 	
 	@RequestMapping("/resource/edit/{resourceId}")
-	public String editResource(@PathVariable String resourceId, Model model){
+	public String editResource(@PathVariable String resourceId, Model model,
+			@RequestHeader(value = "X-Requested-With", required = false) String requestedWith){
+		
 		model.addAttribute("resource",sysResourceService.getResourceByResourceId(resourceId));
+        if (AjaxUtils.isAjaxRequest(requestedWith)) {
+            return "resource/resourceform :: content ";
+        }
 		return "resource/resourceform";
 	}
 	
@@ -102,5 +109,14 @@ public class SysResourceController {
 			logger.error(String.format("delete resource [%s] failure message:%s!", ids, e.getMessage()));
 		}
 		return result;
-	}	
+	}
+	
+	
+	@RequestMapping(value = "/resource/tree")
+	public String getResourceTree(@RequestParam Map<String, Object> searchTerm,Model model){
+		List<SysResource> resourceTree = sysResourceService.findResourceTree();
+		model.addAttribute("resourceTree", resourceTree);
+		return "resource/resources_tree";
+		
+	}
 }

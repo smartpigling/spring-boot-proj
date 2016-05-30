@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	  layout:decorator="layouts/defaultLayout">	
+
+<div class="row" layout:fragment="content">
+
+        <div class="col-md-3">
+        
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">资源树</h3>
+
+              <div class="box-tools">
+                            
+					<div class="btn-group">
+						<a class="btn btn-default btn-sm">
+							<i class="fa fa-trash-o"></i>
+						</a>
+						<a class="btn btn-default btn-sm" th:href="${'/resource/new'}" title="添加">
+							<i class="fa fa-plus"></i>
+						</a>
+						
+					</div>
+              </div>
+            </div>
+            <div id="resourceTree" class="box-body no-padding">
+            
+              <!--/*/ <th:block th:replace="fragments/tree :: tree(menu=${resourceTree})"></th:block> /*/-->
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+        </div>
+
+
+	<div class="col-xs-9" id="testcontext">
+	
+		
+		<div class="box">
+			<div class="box-header with-border">
+
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body no-padding">
+
+			</div>
+			<!-- /.box-body -->
+		</div>		
+		
+		
+		
+	    <div layout:include="fragments/alert :: alert" th:with="type='danger', header='Oh snap! You got an error!'" th:remove="tag">
+        <!--/* Implements alert content fragment with full-blown HTML content */-->
+        <th:block layout:fragment="alert-content">
+            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
+            <p>
+                <button type="button" class="btn btn-danger">Take this action</button>
+                <button type="button" class="btn btn-default">Or do this</button>
+            </p>
+        </th:block>
+    </div>	
+		
+		
+		
+		
+		
+	</div>
+	<!--/*/ <th:block th:replace="fragments/windows :: modal"></th:block> /*/-->
+
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+	    $(document).ready(function() {
+
+	    	$('#resourceTree').jstree();
+	    	
+	    	
+	    	$("#testajax").click(function(){
+	    		  $.get("/resources", function(result){
+	    		    $("#testcontext").html(result);
+	    		  });
+	    	});
+	    });
+		           
+		/*]]>*/
+	</script>			           
+</div>
+</html>
