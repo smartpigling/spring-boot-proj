@@ -1,89 +1,97 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-	  layout:decorator="layouts/defaultLayout">	
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/defaultLayout">
 
 <div class="row" layout:fragment="content">
 
-        <div class="col-md-3">
-        
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">资源树</h3>
-
-              <div class="box-tools">
-                            
+	<div class="col-md-4">
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">资源树</h3>
+				<div class="box-tools">
 					<div class="btn-group">
-						<a class="btn btn-default btn-sm">
+						<a class="btn btn-default btn-sm" title="删除" 
+							data-toggle="modal" data-target="#delete_modal" data-url="/resource/delete">
 							<i class="fa fa-trash-o"></i>
 						</a>
-						<a class="btn btn-default btn-sm" th:href="${'/resource/new'}" title="添加">
+						<a class="btn btn-default btn-sm" th:href="${'/resource/new'}" title="添加"> 
 							<i class="fa fa-plus"></i>
 						</a>
-						
 					</div>
-              </div>
-            </div>
-            <div id="resourceTree" class="box-body no-padding">
-            
-              <!--/*/ <th:block th:replace="fragments/tree :: tree(menu=${resourceTree})"></th:block> /*/-->
-              
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-        </div>
-
-
-	<div class="col-xs-9" id="testcontext">
-	
-		
-		<div class="box">
-			<div class="box-header with-border">
-
+				</div>
 			</div>
-			<!-- /.box-header -->
-			<div class="box-body no-padding">
-
+			<div id="resourceTree" class="box-body no-padding">
+				<!--/*/ <th:block th:replace="fragments/tree :: tree(menu=${resourceTree})"></th:block> /*/-->
 			</div>
 			<!-- /.box-body -->
-		</div>		
-		
-		
-		
-	    <div layout:include="fragments/alert :: alert" th:with="type='danger', header='Oh snap! You got an error!'" th:remove="tag">
-        <!--/* Implements alert content fragment with full-blown HTML content */-->
-        <th:block layout:fragment="alert-content">
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
-            <p>
-                <button type="button" class="btn btn-danger">Take this action</button>
-                <button type="button" class="btn btn-default">Or do this</button>
-            </p>
-        </th:block>
-    </div>	
-		
-		
-		
-		
-		
+		</div>
+		<!-- /. box -->
 	</div>
-	<!--/*/ <th:block th:replace="fragments/windows :: modal"></th:block> /*/-->
 
+
+	<div class="col-xs-8" id="testcontext">
+		<div class="box">
+			<div class="box-header with-border"></div>
+			<!-- /.box-header -->
+			<div class="box-body no-padding"></div>
+			<!-- /.box-body -->
+		</div>
+	</div>
+
+
+
+    <div layout:include="fragments/modal :: modal" th:with="id='delete_modal',type='danger', header='删除', body='您确认删除所有信息？' " th:remove="tag">
+        <th:block layout:fragment="modal-botton">
+			<button type="button" class="btn btn-outline" id="delete_ok">确定</button>
+        </th:block>
+    </div>		
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
 	    $(document).ready(function() {
-
-	    	$('#resourceTree').jstree();
-	    	
-	    	
-	    	$("#testajax").click(function(){
-	    		  $.get("/resources", function(result){
-	    		    $("#testcontext").html(result);
-	    		  });
-	    	});
+	    	$("#resourceTree").jstree({
+	    		"checkbox": {
+	            	"keep_selected_style": true,
+	                "visible" : true,
+	                "three_state": false,
+	                "whole_node" : false,
+	            },
+	    		"plugins" : ["wholerow", "checkbox"]
+	    	})
+			.bind("click.jstree", function(event) { 
+				var eventNodeName = event.target.nodeName;
+				if (eventNodeName == "INS") {                   
+	                return;               
+	            } else if (eventNodeName == "A") {
+	            	var id = $(event.target).attr("id"); 
+	            	alert(id);               
+	            } 
+			});
+    	
+			//模态批量删除
+			$("#delete_ok").click(function () {
+				var header = $("meta[name='_csrf_header']").attr("content");
+				var token = $("meta[name='_csrf']").attr("content");
+				var _url = $("a[data-target='#delete_modal']").attr("data-url");
+				var ids = $("#resourceTree").jstree("get_selected");
+				alert(token);
+				$.post( _url,
+					{
+						'_csrf': token,
+						'ids': ids
+					},
+					function(data,status){
+						if(data && data['result']=='success'){
+							window.location.reload();
+						}
+					}
+				);		
+				
+				$('#delete_ok').attr('data-dismiss', 'modal');
+			});	    		
 	    });
-		           
 		/*]]>*/
-	</script>			           
+	</script>  	
+	
 </div>
 </html>

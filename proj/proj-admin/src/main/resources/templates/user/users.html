@@ -96,7 +96,45 @@
 		</div>
 		<!-- /.box -->
 	</div>
-	<!--/*/ <th:block th:replace="fragments/windows :: modal"></th:block> /*/-->
+	
+	
+    <div layout:include="fragments/modal :: modal" th:with="id='delete_modal',type='danger', header='删除', body='您确认删除所有信息？' " th:remove="tag">
+        <th:block layout:fragment="modal-botton">
+			<button type="button" class="btn btn-outline" id="delete_ok">确定</button>
+        </th:block>
+    </div>	
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+	    $(document).ready(function() {
+
+			//模态批量删除
+			$("#delete_ok").click(function () {
+				var _url = $("a[data-target='#delete_modal']").attr("data-url");
+				var checked_data =[];
+				$(".table input[type='checkbox']:checked").each(function(){
+					checked_data.push($(this).val());
+				});
+
+				if(checked_data && checked_data.length > 0){
+					$.post( _url,
+						{
+							'_csrf': $("meta[name='_csrf']").attr("content"),
+							'ids':checked_data.toString()
+						},
+						function(data,status){
+							if(data && data['result']=='success'){
+								window.location.reload();
+							}
+						}
+					);					
+				}
+				$('#delete_ok').attr('data-dismiss', 'modal');
+			});		    	
+	    	
+	    });
+		/*]]>*/
+	</script>  	
+	
 						           
 </div>
 

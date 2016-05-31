@@ -96,6 +96,11 @@ public class SysResourceController {
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			String[] resourceIds = StringUtils.convertStrToArray(ids,",");
+			
+			logger.info("********");
+			logger.info(resourceIds.toString());
+			logger.info("********");
+			
 			List<SysResource> resources= new ArrayList<SysResource>();
 			for(String resourceId : resourceIds){
 				SysResource r =new SysResource();

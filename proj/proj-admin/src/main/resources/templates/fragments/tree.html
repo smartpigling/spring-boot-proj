@@ -4,13 +4,13 @@
 <div th:fragment="tree (menu)" th:remove="tag">
 
 		
-        <ul th:if="${not #lists.isEmpty(menu)}">
-            <li th:each="child : ${menu}">
-                <a th:if="${#strings.isEmpty(child.resourcePath)}" th:text="${child.resourceName}" href="#">Addons</a>
-                <a th:if="${not #strings.isEmpty(child.resourcePath)}" th:href="${child.resourcePath}" th:text="${child.resourceName}">Link Item</a>
-                <div th:replace="fragments/tree :: tree(menu=${child.sysResources})" th:remove="tag" ></div>
-            </li>
-        </ul>
+   <ul th:if="${not #lists.isEmpty(menu)}">
+       <li th:each="child : ${menu}" class="jstree-open" th:id="${child.resourceId}">
+           <a th:if="${#strings.isEmpty(child.resourcePath)}" th:text="${child.resourceName}" th:id="${child.resourceId}" href="#">Addons</a>
+           <a th:if="${not #strings.isEmpty(child.resourcePath)}" th:href="${child.resourcePath}" th:text="${child.resourceName}" th:id="${child.resourceId}" >Link Item</a>
+           <div th:replace="fragments/tree :: tree(menu=${child.sysResources})" th:remove="tag" ></div>
+       </li>
+   </ul>
 		
 	
 </div>

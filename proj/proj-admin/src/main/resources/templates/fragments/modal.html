@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 
 
-<div th:fragment="modal">
-	<!-- delete modal -->
-	<div id="delete_modal" class="modal fade" th:classappend="'modal-' + ${type}" tabindex="-1" role="dialog" aria-hidden="true">
+<div layout:fragment="modal" th:remove="tag">
+	<!-- modal -->
+	<div th:id="${id}" class="modal fade" th:classappend="'modal-' + ${type}" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">删除</h4>
+					<h4 class="modal-title" th:text="${header}">Modal Header</h4>
 				</div>
 				<div class="modal-body">
-					<p>您确定执行此操作？</p>
+					<p th:text="${body}">Modal Body</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-outline" id="delete_ok">确定</button>
+					<th:block layout:fragment="modal-botton">
+						<button type="button" class="btn btn-outline">确定</button>
+					</th:block>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -30,7 +33,6 @@
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
 	    $(document).ready(function() {
-
 			//全选
 		    $(".checkbox-toggle").click(function () {
 		        var clicks = $(this).data('clicks');
@@ -45,35 +47,8 @@
 		        }
 		        $(this).data("clicks", !clicks);
 		    });
-				
-			//模态批量删除
-			$("#delete_ok").click(function () {
-				var _url = $("a[data-target='#delete_modal']").attr("data-url");
-				var checked_data =[];
-				$(".table input[type='checkbox']:checked").each(function(){
-					checked_data.push($(this).val());
-				});
-
-				if(checked_data && checked_data.length > 0){
-					$.post( _url,
-						{
-							'_csrf': $("meta[name='_csrf']").attr("content"),
-							'ids':checked_data.toString()
-						},
-						function(data,status){
-							if(data && data['result']=='success'){
-								window.location.reload();
-							}
-						}
-					);					
-				}
-				$('#delete_ok').attr('data-dismiss', 'modal');
-			});		    	
 	        
 	    });
-	 
-
-		           
 		/*]]>*/
 	</script>
 
