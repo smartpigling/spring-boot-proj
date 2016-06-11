@@ -13,12 +13,14 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.proj.admin.domain.SysResource;
 import com.proj.admin.service.SysResourceService;
@@ -44,15 +46,20 @@ public class SysResourceController {
 	
 	
 	@RequestMapping("/resource/new")
-	public String newResource(Model model){
-		model.addAttribute("resource", new SysResource());
-		return "resource/resourceform";
+	public String newResource(final RedirectAttributes redirectAttributes){
+//		model.addAttribute("resource", new SysResource());
+//		return "resource/resourceform";
+		redirectAttributes.addFlashAttribute("resource", new SysResource());
+		redirectAttributes.addFlashAttribute("defaultId", "");
+		return "redirect:/resource/tree";
 	}
 
 	@RequestMapping(value = "/resource", method = RequestMethod.POST)
-	public String saveResource(SysResource resource){
-		sysResourceService.saveResource(resource);
-		return "redirect:/resource/"+resource.getResourceId();
+	public String saveResource(SysResource resource,final RedirectAttributes redirectAttributes){
+		SysResource entity = sysResourceService.saveResource(resource);
+//		return "redirect:/resource/"+resource.getResourceId();
+		redirectAttributes.addFlashAttribute("defaultId", entity.getResourceId());
+		return "redirect:/resource/tree";
 	}
 	
 	@RequestMapping("/resource/{resourceId}")
@@ -97,10 +104,6 @@ public class SysResourceController {
 		try {
 			String[] resourceIds = StringUtils.convertStrToArray(ids,",");
 			
-			logger.info("********");
-			logger.info(resourceIds.toString());
-			logger.info("********");
-			
 			List<SysResource> resources= new ArrayList<SysResource>();
 			for(String resourceId : resourceIds){
 				SysResource r =new SysResource();
@@ -118,9 +121,16 @@ public class SysResourceController {
 	
 	
 	@RequestMapping(value = "/resource/tree")
-	public String getResourceTree(@RequestParam Map<String, Object> searchTerm,Model model){
+	public String getResourceTree(Model model){
 		List<SysResource> resourceTree = sysResourceService.findResourceTree();
 		model.addAttribute("resourceTree", resourceTree);
+		
+		if(!model.containsAttribute("defaultId") && !CollectionUtils.isEmpty(resourceTree)){
+			model.addAttribute("defaultId", resourceTree.get(0).getResourceId());
+		}
+		if(!model.containsAttribute("resource")){
+			model.addAttribute("resource", new SysResource());
+		}
 		return "resource/resources_tree";
 		
 	}

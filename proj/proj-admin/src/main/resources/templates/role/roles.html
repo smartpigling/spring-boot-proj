@@ -1,39 +1,125 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head lang="zh-cmn-Hans">
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	  layout:decorator="layouts/defaultLayout">
 
-    <title>Admin Users Show</title>
+<div class="row" layout:fragment="content">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-header with-border">
+				<form class="form-inline search-form"  th:action="@{/roles}">
+					<div class="">
+						<div class="form-group">
+							<label for="roleName">角色名称</label> 
+							<input type="text" class="form-control" name="roleName" th:value="${searchTerm['roleName']}" placeholder="角色名称" />
+						</div>
+						<div class="checkbox">
+							<label> 
+								<input type="checkbox" name="enabled" th:checked="${searchTerm['enabled']}" th:value="${searchTerm['enabled']}" /> 是否可用
+							</label>
+						</div>
+						<button type="submit" class="btn btn-default"><i class="fa fa-search"></i>查询</button>					
+					</div>					
+				</form>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body no-padding">
+				<div class="mailbox-controls">
+					<!-- Check all button -->
+					<a class="btn btn-default btn-sm checkbox-toggle" title="全选" >
+						<i class="fa fa-square-o"></i>
+					</a>
+					<div class="btn-group">
+						<a class="btn btn-default btn-sm" title="删除" 
+							data-toggle="modal" data-target="#delete_modal" >
+							<i class="fa fa-trash-o"></i>
+						</a>
+						<a th:href="${'/role/new'}" class="btn btn-default btn-sm" title="添加">
+							<i class="fa fa-plus"></i>
+						</a>
+					</div>
+					<!-- /.btn-group -->
+					<a class="btn btn-default btn-sm" title="刷新" onclick="javascript:window.location.reload();">
+						<i class="fa fa-refresh"></i>
+					</a>
 
-    <!--/*/ <th:block th:include="headerinc :: head"></th:block> /*/-->
-</head>
-<body>
-<div class="container">
-    <!--/*/ <th:block th:include="header :: header"></th:block> /*/-->
-    <div th:if="${not #lists.isEmpty(users)}">
-        <h2>User List</h2>
-        <table class="table table-striped">
-            <tr>
-                <th>Id</th>
-                <th>username</th>
-                <th>name</th>
-                <th>enabled</th>
-                <th>View</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}">id</td>
-                <td th:text="${user.username}">username</td>
-                <td th:text="${user.name}">name</td>
-                <td th:text="${user.enabled}">enabled</td>
-                <td><a th:href="${'/user/' + user.id}">View</a></td>
-                <td><a th:href="${'/user/edit/' + user.id}">Edit</a></td>
-                <td><a th:href="${'/user/delete/' + user.id}">Delete</a></td>
-            </tr>
-        </table>
+					<div class="pull-right">
+						<!--/*/ <th:block th:replace="fragments/pagination_tr :: page"></th:block> /*/-->
+					</div>
+				</div>
 
-    </div>
+
+				<table class="table table-hover table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="width: 10px"></th>
+							<th>角色名称</th>
+							<th>角色描述</th>
+							<th>是否可用</th>
+							<th style="width: 80px">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+			        	<tr th:if="${#lists.isEmpty(page.content)}">
+            				<td colspan="5">没有相关记录</td>
+        				</tr>					
+						<tr th:each=" role : ${page.content}" th:if="${not #lists.isEmpty(page.content)}">
+							<td><input type="checkbox" th:value="${role.roleId}"/></td>
+							<td th:text="${role.roleName}">roleName</td>
+							<td><i th:class="${role.enabled} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></td>
+							<td>
+								<a th:href="${'/role/'+role.roleId}"><i class="fa fa-sign-in fa-fw"></i></a> 
+								<a th:href="${'/role/edit/' + role.roleId}"><i class="fa fa-pencil-square-o fa-fw"></i></a> 
+								<a th:href="${'/role/delete/' + role.roleId}"><i class="fa fa-trash-o fa-fw"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!--pagination-->
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+	
+	
+    <div layout:include="fragments/modal :: modal" th:with="id='delete_modal',type='danger', header='删除', body='您确认删除所有信息？' " th:remove="tag">
+        <th:block layout:fragment="modal-botton">
+			<button type="button" class="btn btn-outline" id="delete_ok">确定</button>
+        </th:block>
+    </div>	
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+	    $(document).ready(function() {
+
+			//模态批量删除
+			$("#delete_ok").click(function () {
+				var checked_data =[];
+				$(".table input[type='checkbox']:checked").each(function(){
+					checked_data.push($(this).val());
+				});
+
+				if(checked_data && checked_data.length > 0){
+					$.post( "/role/delete",
+						{
+							"_csrf": $("meta[name='_csrf']").attr("content"),
+							"ids":checked_data.toString()
+						},
+						function(data,status){
+							if(data && data["result"]=="success"){
+								window.location.reload();
+							}
+						}
+					);					
+				}
+				$("#delete_ok").attr("data-dismiss", "modal");
+			});		    	
+	    	
+	    });
+		/*]]>*/
+	</script>  	
+	
+						           
 </div>
 
-</body>
 </html>

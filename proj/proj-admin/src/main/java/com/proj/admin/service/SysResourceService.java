@@ -12,7 +12,7 @@ public interface SysResourceService {
 	
 	public Page<SysResource> findResources(Map<String, Object> criteria, Pageable pageable);
 
-	public void saveResource(SysResource resource);
+	public SysResource saveResource(SysResource resource);
 	
 	public SysResource getResourceByResourceId(String resourceId);
 	

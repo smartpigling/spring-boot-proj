@@ -3,19 +3,15 @@ package com.proj.admin.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.util.StringUtils;
+import com.proj.admin.util.StringUtils;
+
 
 public class UtilTest {
 
 	public static void main(String[] args) {
 		
-		Map<String,Object> map =new HashMap<String,Object>();
-		//map.put("username", "");
-		if(!StringUtils.isEmpty(map.getOrDefault("username",""))){
-			System.out.println("aaaaaa");
-		}else{
-			System.out.println("bbbbbb");
-		}
+		String[] arr = StringUtils.convertStrToArray("dfdsfasdfasd",",");
+		System.out.println(arr[0].toString());
 		
 	}
 

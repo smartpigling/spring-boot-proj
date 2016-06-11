@@ -6,9 +6,9 @@
 <head>
     <meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
     <!-- default header name is X-CSRF-TOKEN -->
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>	
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>	
 	<!--  thymeleaf Layout Dialect default. -->
 	<title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">CQINT</title>
 	<link th:replace="fragments/style"/>
@@ -172,8 +172,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="#"  th:href="@{/users(enabled=true)}"><i class="fa fa-circle-o"></i>用户管理</a></li>
-            <li><a href="#"  th:href="@{/resource/tree}"><i class="fa fa-circle-o"></i>资源树管理</a></li>
-            <li><a href="#"  th:href="@{/resources(enabled=true)}"><i class="fa fa-circle-o"></i>资源管理</a></li>
+            <li><a href="#"  th:href="@{/resource/tree}"><i class="fa fa-circle-o"></i>资源管理</a></li>
+            <li><a href="#"  th:href="@{/roles(enabled=true)}"><i class="fa fa-circle-o"></i>角色管理</a></li>
           </ul>
         </li>      
         <!-- Samples 事例 供开发人员查阅 -->

@@ -1,44 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head lang="zh-cmn-Hans">
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	  layout:decorator="layouts/defaultLayout">
 
-    <title>Admin User Show</title>
+<div class="row" layout:fragment="content">
 
-    <!--/*/ <th:block th:include="headerinc :: head"></th:block> /*/-->
-</head>
-<body>
-<div class="container">
-    <!--/*/ <th:block th:include="header :: header"></th:block> /*/-->
+	<div class="col-md-12">
+		<div class="box">
+			<div class="box-header with-border">
+				<i class="fa fa-file-o"></i>
 
-    <h2>User Details</h2>
-        <div>
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">User Id:</label>
-                    <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${user.id}">user Id</p></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">username:</label>
-                    <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${user.username}">username</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">enabled:</label>
-                    <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${user.enabled}">enabled</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">accountLocked:</label>
-                    <div class="col-sm-10">
-                        <p class="form-control-static" th:text="${user.accountLocked}">accountLocked</p>
-                    </div>
-                </div>
-            </form>
-    </div>
+				<h3 class="box-title">用户详情</h3>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body">
+				<dl class="dl-horizontal col-xs-6">
+					<dt>账号</dt>
+					<dd><span th:text="${user.username}"></span></dd>
+					<dt>姓名</dt>
+					<dd><span th:text="${user.name}"></span></dd>
+					<dt>创建日期</dt>
+					<dd><span th:text="${user.createdTime}"></span></dd>	
+					<dt>最后登录日期</dt>
+					<dd><span th:text="${user.lastLogin}"></span></dd>										
+				</dl>
+				<dl class="dl-horizontal col-xs-6">
+					<dt>是否可用</dt>
+					<dd><i th:class="${user.enabled} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>
+					<dt>是否过期</dt>
+					<dd><i th:class="${user.accountNonExpired} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>
+					<dt>是否锁定</dt>
+					<dd><i th:class="${user.accountNonLocked} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>	
+					<dt>证书有效</dt>
+					<dd><i th:class="${user.credentialsNonExpired} ? 'fa fa-check-circle':'fa fa-times-circle' "></i></dd>										
+				</dl>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- ./col -->
 </div>
-
-</body>
 </html>

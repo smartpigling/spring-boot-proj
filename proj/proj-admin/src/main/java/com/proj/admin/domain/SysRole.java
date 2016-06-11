@@ -1,7 +1,11 @@
 package com.proj.admin.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,13 +16,46 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name="SYS_ROLE")
 public class SysRole implements Serializable{
+	
+	
+	/**
+	 * users template search form
+	 * @param roleName
+	 * @param enabled
+	 * @return
+	 */
+    public static Specification<SysRole> builderSearchWhereClause(final Map<String, Object> criteria) {
+        return new Specification<SysRole>() {
+            @Override
+            public Predicate toPredicate(Root<SysRole> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            	List<Predicate> predicate = new ArrayList<Predicate>();
+            	if(!StringUtils.isEmpty(criteria.getOrDefault("roleName",""))){
+            		predicate.add(cb.like(root.get("roleName").as(String.class), "%"+criteria.get("roleName")+"%"));
+            	}
+            	
+				if(!StringUtils.isEmpty(criteria.getOrDefault("enabled","false"))){
+					predicate.add(cb.equal(root.get("enabled").as(Boolean.class), 
+							Boolean.parseBoolean(criteria.getOrDefault("enabled","false").toString())));
+				}
+            	
+                Predicate[] pre = new Predicate[predicate.size()];
+                return query.where(predicate.toArray(pre)).getRestriction();
+            }
+        };
+    }	
 	
 	/**
 	 * 

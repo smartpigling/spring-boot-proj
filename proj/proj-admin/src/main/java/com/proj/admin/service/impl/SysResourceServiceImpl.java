@@ -37,8 +37,8 @@ public class SysResourceServiceImpl implements SysResourceService {
 	
 	
 	@Override
-	public void saveResource(SysResource resource) {
-		sysResourceRepository.save(resource);
+	public SysResource saveResource(SysResource resource) {
+		return sysResourceRepository.save(resource);
 	}
 
 	@Override

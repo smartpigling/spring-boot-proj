@@ -35,7 +35,7 @@
 					</a>
 					<div class="btn-group">
 						<a class="btn btn-default btn-sm" title="删除" 
-							data-toggle="modal" data-target="#delete_modal" data-url="/user/delete">
+							data-toggle="modal" data-target="#delete_modal" >
 							<i class="fa fa-trash-o"></i>
 						</a>
 						<a th:href="${'/user/new'}" class="btn btn-default btn-sm" title="添加">
@@ -109,26 +109,25 @@
 
 			//模态批量删除
 			$("#delete_ok").click(function () {
-				var _url = $("a[data-target='#delete_modal']").attr("data-url");
 				var checked_data =[];
 				$(".table input[type='checkbox']:checked").each(function(){
 					checked_data.push($(this).val());
 				});
 
 				if(checked_data && checked_data.length > 0){
-					$.post( _url,
+					$.post( "/user/delete",
 						{
-							'_csrf': $("meta[name='_csrf']").attr("content"),
-							'ids':checked_data.toString()
+							"_csrf": $("meta[name='_csrf']").attr("content"),
+							"ids":checked_data.toString()
 						},
 						function(data,status){
-							if(data && data['result']=='success'){
+							if(data && data["result"]=="success"){
 								window.location.reload();
 							}
 						}
 					);					
 				}
-				$('#delete_ok').attr('data-dismiss', 'modal');
+				$("#delete_ok").attr("data-dismiss", "modal");
 			});		    	
 	    	
 	    });

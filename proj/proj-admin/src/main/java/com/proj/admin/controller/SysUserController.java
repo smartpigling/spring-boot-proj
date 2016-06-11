@@ -74,8 +74,8 @@ public class SysUserController {
 	
 
     
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	//@PreAuthorize("hasAuthority('XX_VIEW')")
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String listUser(@PageableDefault(sort={"createdTime"},direction = Direction.ASC) Pageable pageable,
 			@RequestParam Map<String, Object> searchTerm,
 			Model model){
